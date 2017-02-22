@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
 using System.Linq;
 using SqlAnalytics.Domain;
+using System.Collections.Generic;
 
 namespace SqlOptimizer.Tests.OptimizerRepo
 {
@@ -262,7 +263,7 @@ SELECT Name
             return sql;
         }
 
-        [TestClass]
+        [TestMethod]
         public void CheckForExplicitConversion()
         {
             //check for correlated sub query examples 

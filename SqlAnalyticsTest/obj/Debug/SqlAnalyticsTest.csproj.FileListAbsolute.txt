@@ -8,3 +8,4 @@ c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsManager.dll
 c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsRepo.dll
 c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsManager.pdb
 c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsRepo.pdb
+C:\Users\vishal\Source\Repos\SqlAnalytics\SqlAnalyticsTest\obj\Debug\SqlAnalyticsTest.csprojResolveAssemblyReference.cache
