@@ -1,0 +1,10 @@
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsTest.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsTest.pdb
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\obj\Debug\SqlAnalyticsTest.csprojResolveAssemblyReference.cache
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\obj\Debug\SqlAnalyticsTest.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\obj\Debug\SqlAnalyticsTest.pdb
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsManager.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsRepo.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsManager.pdb
+c:\OpenSource\SqlAnalytics\SqlAnalyticsTest\bin\Debug\SqlAnalyticsRepo.pdb

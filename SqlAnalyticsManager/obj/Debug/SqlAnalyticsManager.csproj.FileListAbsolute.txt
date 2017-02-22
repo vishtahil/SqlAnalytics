@@ -1,0 +1,5 @@
+c:\OpenSource\SqlAnalytics\SqlAnalyticsManager\bin\Debug\SqlAnalyticsManager.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsManager\bin\Debug\SqlAnalyticsManager.pdb
+c:\OpenSource\SqlAnalytics\SqlAnalyticsManager\obj\Debug\SqlAnalyticsManager.csprojResolveAssemblyReference.cache
+c:\OpenSource\SqlAnalytics\SqlAnalyticsManager\obj\Debug\SqlAnalyticsManager.dll
+c:\OpenSource\SqlAnalytics\SqlAnalyticsManager\obj\Debug\SqlAnalyticsManager.pdb
