@@ -263,6 +263,7 @@ SELECT Name
             return sql;
         }
 
+
         [TestMethod]
         public void CheckForExplicitConversion()
         {

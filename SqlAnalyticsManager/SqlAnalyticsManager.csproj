@@ -43,7 +43,14 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Domain\SqlNormalizer.cs" />
     <Compile Include="Domain\SqlPlanAnayzer.cs" />
+    <Compile Include="Domain\SqlPlanParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SqlAnalyticsRepo\SqlAnalyticsRepo.csproj">
+      <Project>{fbfbc4ce-9fb4-4c03-ab26-8056bdc17e0c}</Project>
+      <Name>SqlAnalyticsRepo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,8 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2A90813-2FD8-4AF0-BBC6-93D34D765F7B}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
-		..\..\dev\SqlOptimizer\Queryoptimizer.sql = ..\..\dev\SqlOptimizer\Queryoptimizer.sql
-		..\..\dev\SqlOptimizer\SqlQueryPlanOptimizer.txt = ..\..\dev\SqlOptimizer\SqlQueryPlanOptimizer.txt
+		Queryoptimizer.sql = Queryoptimizer.sql
+		SqlPlanQuery.sql = SqlPlanQuery.sql
+		SqlQueryPlanOptimizer.txt = SqlQueryPlanOptimizer.txt
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SqlAnalytics", "src\SqlAnalytics\SqlAnalytics.xproj", "{5FED4C5C-F3EE-47EB-B743-84DB89AC011D}"
