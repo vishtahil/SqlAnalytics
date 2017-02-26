@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A49A0CE8-5D9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2A90813-2FD8-4AF0-BBC6-93D34D765F7B}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		global.json = global.json
 		Queryoptimizer.sql = Queryoptimizer.sql
 		SqlPlanQuery.sql = SqlPlanQuery.sql

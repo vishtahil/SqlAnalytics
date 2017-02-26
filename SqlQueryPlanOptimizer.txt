@@ -4,3 +4,4 @@ sql query plan optimizer
  1.https://github.com/Giorgi/LINQPad.QueryPlanVisualizer/blob/master/src/QueryPlanVisualizer/Helpers/DatabaseHelper.cs#L1
 http://stackoverflow.com/questions/589096/parsing-sql-code-in-c-sharp/15027663#15027663
 http://stackoverflow.com/questions/25879543/are-there-any-way-to-programmatically-execute-a-query-with-include-actual-execut
+http://stackoverflow.com/questions/765142/access-to-sql-server-messages-via-ado-net

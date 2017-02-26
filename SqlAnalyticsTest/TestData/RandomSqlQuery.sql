@@ -1,7 +1,4 @@
-﻿set statistics xml on;
-set statistics time on;
-
-SELECT CrossProd.ProductID, 
+﻿SELECT CrossProd.ProductID, 
  CrossProd.EmployeeID, 
 
  ISNULL(UnitsSold, 0) as Unitsold, isnull(TotalSales, $0) as TotalSales
@@ -31,5 +28,3 @@ SELECT 0 AS ProductID, Employees.EmployeeID,
  ON Orders.EmployeeID = Employees.EmployeeID 
  GROUP BY Employees.EmployeeID 
 ORDER BY 2, 1;
-
-
