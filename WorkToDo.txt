@@ -1,0 +1,20 @@
+1. Able to fetch Sql Plan
+2. Correlated Queries
+3. Able to fecth Sql statistics
+4. Read messages [today]
+5. CROSS JOIN, SQL INJECTION ATTACKS,
+6. Sql Injection Attack Example : '" + userName + "';", numeric field,UserId = " + txtUserId;
+7. Order by
+8. Hash Match
+9. Like Clauses
+8. Estimated number of rows 
+Sorting 
+Designing 
+Convert Implicit 
+Hash Match 
+Table Scan 
+Clustered Index 
+Parameterized Sql 
+Sql Injection Attack 
+Like clause in the beginning 
+Function on the left side 
