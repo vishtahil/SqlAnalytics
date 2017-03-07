@@ -25,7 +25,7 @@ namespace SqlAnalyticsTest
         [TestMethod]
         public void GetExecutionPlan()
         {
-            string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlQuery.sql");
+            string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlQueryWithStats.sql");
             var sqlPlan = _optimizerRepo.GetSqlExecutionPlan(_connectionString, sqlText);
             Assert.AreEqual(!string.IsNullOrEmpty(sqlPlan),true);
             Assert.AreEqual(sqlPlan.Contains("http://schemas.microsoft.com/sqlserver/2004/07/showplan"), true);
@@ -37,6 +37,14 @@ namespace SqlAnalyticsTest
             string sqlPlan = System.IO.File.ReadAllText($"{ _testDataLocation}/RandomSqlPlan.xml");
             var dataTable = _optimizerRepo.GetSqlPlanStatistics(_connectionString, sqlPlan);
             Assert.AreEqual(dataTable != null, true);
+        }
+
+        [TestMethod]
+        public void GetExecutionPlanMessage()
+        {
+            string sqlPlan = System.IO.File.ReadAllText($"{ _testDataLocation}/RandomSqlQueryWithStats.sql");
+           var a = _optimizerRepo.GetSqlServerMessages(_connectionString, sqlPlan);
+            //Assert.AreEqual(dataTable != null, true);
         }
 
         [TestMethod]

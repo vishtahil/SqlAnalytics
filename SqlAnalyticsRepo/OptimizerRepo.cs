@@ -18,6 +18,39 @@ namespace SqlAnalytics.Repo
             throw new NotImplementedException("Please create a test first");
         }
 
+        public string GetSqlServerMessages(string connectionString, string dynamicSql)
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            conn.InfoMessage += new SqlInfoMessageEventHandler(Message);
+
+            SqlCommand cmd = new SqlCommand(dynamicSql, conn);
+            cmd.CommandType = System.Data.CommandType.Text;
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read()) { var a = rdr.GetValue(0); };
+
+            rdr.NextResult();
+
+            while (rdr.Read()) {};
+
+            // this is needed to print the second message
+            rdr.NextResult();
+
+            rdr.Close();
+
+            conn.Close();
+            return null;
+        }
+
+        static void Message(object sender, SqlInfoMessageEventArgs e)
+        {
+            Console.Out.WriteLine(e.Message);
+        }
+
+
         /// <summary>
         /// get sql execution plan
         /// </summary>
@@ -25,11 +58,13 @@ namespace SqlAnalytics.Repo
         /// <returns></returns>
         public string GetSqlExecutionPlan(string connectionString, string dynamicSql)
         {
+            string sqlExecutionPlan = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 if (connection.State != System.Data.ConnectionState.Open)
                 {
                     connection.Open();
+                    connection.InfoMessage += new SqlInfoMessageEventHandler(Message);
                 }
 
                 using (SqlCommand command = new SqlCommand(dynamicSql, connection))
@@ -47,13 +82,13 @@ namespace SqlAnalytics.Repo
                             if (reader.GetName(0) == "Microsoft SQL Server 2005 XML Showplan")
                             {
                                 reader.Read();
-                                return reader.GetString(0);
+                                sqlExecutionPlan = reader.GetString(0);
                             }
                         }
                     }
                 }
             }
-            return null;
+            return  sqlExecutionPlan;
         }
 
         /// <summary>
