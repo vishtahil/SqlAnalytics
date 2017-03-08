@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "exports": {
+    "SqlAnalyticsManager/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/SqlAnalyticsManager.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/SqlAnalyticsManager.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SqlAnalyticsManager.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "SqlAnalyticsRepo/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/SqlAnalyticsRepo.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/SqlAnalyticsRepo.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SqlAnalyticsRepo.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
@@ -13,7 +13,16 @@
   },
 
   "frameworks": {
-    "net461": { }
+    "net461": {
+      "dependencies": {
+        "SqlAnalyticsManager": {
+          "target": "project"
+        },
+        "SqlAnalyticsRepo": {
+          "target": "project"
+        }
+      }
+    }
   },
 
   "buildOptions": {
