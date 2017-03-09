@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SqlAnalyticsManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,60 +14,32 @@ namespace SqlAnalytics.Repo
         public OptimizerRepo()
         {
         }
-
-        public bool IsPrime(int candidate)
-        {
-            throw new NotImplementedException("Please create a test first");
-        }
-
-        public string GetSqlServerMessages(string connectionString, string dynamicSql)
-        {
-            SqlConnection conn = new SqlConnection(connectionString);
-            conn.Open();
-
-            conn.InfoMessage += new SqlInfoMessageEventHandler(Message);
-
-            SqlCommand cmd = new SqlCommand(dynamicSql, conn);
-            cmd.CommandType = System.Data.CommandType.Text;
-
-            SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read()) { var a = rdr.GetValue(0); };
-
-            rdr.NextResult();
-
-            while (rdr.Read()) {};
-
-            // this is needed to print the second message
-            rdr.NextResult();
-
-            rdr.Close();
-
-            conn.Close();
-            return null;
-        }
-
-        static void Message(object sender, SqlInfoMessageEventArgs e)
-        {
-            Console.Out.WriteLine(e.Message);
-        }
-
-
+        
         /// <summary>
         /// get sql execution plan
         /// </summary>
         /// <param name="dynamicSql"></param>
         /// <returns></returns>
-        public string GetSqlExecutionPlan(string connectionString, string dynamicSql)
+        public SqlPlanOveriviewModel GetSqlExecutionPlan(string connectionString, string dynamicSql)
         {
 
-            string sqlExecutionPlan = null;
+            var sqlPlanOveriviewModel = new SqlPlanOveriviewModel();
+            var listOverviewMessages = new List<SqlOverviewMessages>();
+            
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 if (connection.State != System.Data.ConnectionState.Open)
                 {
                     connection.Open();
-                    connection.InfoMessage += new SqlInfoMessageEventHandler(Message);
+                    connection.InfoMessage += new SqlInfoMessageEventHandler(
+                        (object sender, SqlInfoMessageEventArgs e) =>
+                        {
+                            listOverviewMessages.Add(new SqlOverviewMessages()
+                            {
+                                Description = e.Message
+                            });
+                        }
+                        );
                 }
 
                 using (SqlCommand command = new SqlCommand(dynamicSql, connection))
@@ -84,13 +57,14 @@ namespace SqlAnalytics.Repo
                             if (reader.GetName(0) == "Microsoft SQL Server 2005 XML Showplan")
                             {
                                 reader.Read();
-                                sqlExecutionPlan = reader.GetString(0);
+                                sqlPlanOveriviewModel.SqlExecutionPlan = reader.GetString(0);
                             }
                         }
                     }
                 }
             }
-            return  sqlExecutionPlan;
+            sqlPlanOveriviewModel.SqlOverviewMessages = listOverviewMessages;
+            return sqlPlanOveriviewModel;
         }
 
         /// <summary>
@@ -106,6 +80,7 @@ namespace SqlAnalytics.Repo
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+                #region "Sql text"
                 var commandText = $@"
                     DECLARE @xmlDocument XML;
                     DECLARE @Segment VARCHAR(MAX);
@@ -352,6 +327,7 @@ namespace SqlAnalytics.Repo
                                    , f.ParentNodeId
                                    , f.TotalNodeCost
                     FROM #Final f ";
+                #endregion
 
                 using (SqlCommand command = new SqlCommand(commandText, connection))
                 {

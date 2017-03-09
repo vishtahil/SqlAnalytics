@@ -15,7 +15,6 @@ namespace SqlAnalyticsTest
         private SqlPlanParser _sqlPlanParser;
         private OptimizerRepo _optimizerRepo;
 
-        
         public SqlPlanTest()
         {
             _sqlPlanParser = new SqlPlanParser();
@@ -26,9 +25,9 @@ namespace SqlAnalyticsTest
         public void GetExecutionPlan()
         {
             string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlQueryWithStats.sql");
-            var sqlPlan = _optimizerRepo.GetSqlExecutionPlan(_connectionString, sqlText);
-            Assert.AreEqual(!string.IsNullOrEmpty(sqlPlan),true);
-            Assert.AreEqual(sqlPlan.Contains("http://schemas.microsoft.com/sqlserver/2004/07/showplan"), true);
+            var sqlOverViewModel = _optimizerRepo.GetSqlExecutionPlan(_connectionString, sqlText);
+            Assert.AreEqual(!string.IsNullOrEmpty(sqlOverViewModel.SqlExecutionPlan),true);
+            Assert.AreEqual(sqlOverViewModel.SqlExecutionPlan.Contains("http://schemas.microsoft.com/sqlserver/2004/07/showplan"), true);
         }
 
         [TestMethod]
@@ -38,15 +37,7 @@ namespace SqlAnalyticsTest
             var dataTable = _optimizerRepo.GetSqlPlanStatistics(_connectionString, sqlPlan);
             Assert.AreEqual(dataTable != null, true);
         }
-
-        [TestMethod]
-        public void GetExecutionPlanMessage()
-        {
-            string sqlPlan = System.IO.File.ReadAllText($"{ _testDataLocation}/RandomSqlQueryWithStats.sql");
-           var a = _optimizerRepo.GetSqlServerMessages(_connectionString, sqlPlan);
-            //Assert.AreEqual(dataTable != null, true);
-        }
-
+        
         [TestMethod]
         public void DesrializeSqlPlan()
         {

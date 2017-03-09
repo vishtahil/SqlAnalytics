@@ -19,8 +19,8 @@ namespace SqlAnalyticsManager
 
         public SqlStatisticsSummary GetSqlStatistcis(string connectionString, string sql)
         {
-            var sqlPlan = _optimizerRepo.GetSqlExecutionPlan(connectionString, sql);
-            var sqlStatistics = _optimizerRepo.GetSqlPlanStatistics(connectionString, sqlPlan);
+            var overViewModel = _optimizerRepo.GetSqlExecutionPlan(connectionString, sql);
+            var sqlStatistics = _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
             return new SqlStatisticsSummary();
         }
     }
