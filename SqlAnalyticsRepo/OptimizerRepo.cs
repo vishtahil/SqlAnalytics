@@ -9,6 +9,7 @@ namespace SqlAnalytics.Repo
 {
     public class OptimizerRepo
     {
+        private string _connectionString;
         public OptimizerRepo()
         {
         }
@@ -58,6 +59,7 @@ namespace SqlAnalytics.Repo
         /// <returns></returns>
         public string GetSqlExecutionPlan(string connectionString, string dynamicSql)
         {
+
             string sqlExecutionPlan = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

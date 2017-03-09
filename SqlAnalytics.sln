@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlAnalyticsRepo", "SqlAnal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlAnalyticsTest", "SqlAnalyticsTest\SqlAnalyticsTest.csproj", "{D8F6F4D6-E695-4EEA-A0F5-F6F751F2A293}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlAnalyticsDomain", "SqlAnalyticsDomain\SqlAnalyticsDomain.csproj", "{5EEB8533-E967-4B17-AE6B-2832E3E3CEE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{D8F6F4D6-E695-4EEA-A0F5-F6F751F2A293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8F6F4D6-E695-4EEA-A0F5-F6F751F2A293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8F6F4D6-E695-4EEA-A0F5-F6F751F2A293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEB8533-E967-4B17-AE6B-2832E3E3CEE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEB8533-E967-4B17-AE6B-2832E3E3CEE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEB8533-E967-4B17-AE6B-2832E3E3CEE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEB8533-E967-4B17-AE6B-2832E3E3CEE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +59,6 @@ Global
 		{88D1A487-8B8A-4F39-926C-8E35208E7C36} = {A49A0CE8-5D96-4DF1-81B2-AF98E38CB83C}
 		{FBFBC4CE-9FB4-4C03-AB26-8056BDC17E0C} = {A49A0CE8-5D96-4DF1-81B2-AF98E38CB83C}
 		{D8F6F4D6-E695-4EEA-A0F5-F6F751F2A293} = {A49A0CE8-5D96-4DF1-81B2-AF98E38CB83C}
+		{5EEB8533-E967-4B17-AE6B-2832E3E3CEE2} = {A49A0CE8-5D96-4DF1-81B2-AF98E38CB83C}
 	EndGlobalSection
 EndGlobal

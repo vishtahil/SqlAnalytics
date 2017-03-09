@@ -1,6 +1,23 @@
 {
   "version": 2,
   "exports": {
+    "SqlAnalyticsDomain/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5",
+      "compile": {
+        "bin/Debug/SqlAnalyticsDomain.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/SqlAnalyticsDomain.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SqlAnalyticsDomain.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "SqlAnalyticsManager/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.1",

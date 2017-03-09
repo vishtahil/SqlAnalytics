@@ -42,7 +42,12 @@
   <ItemGroup>
     <Compile Include="OptimizerRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="showplanxml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SqlAnalyticsDomain\SqlAnalyticsDomain.csproj">
+      <Project>{5eeb8533-e967-4b17-ae6b-2832e3e3cee2}</Project>
+      <Name>SqlAnalyticsDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

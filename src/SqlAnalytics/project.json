@@ -15,6 +15,9 @@
   "frameworks": {
     "net461": {
       "dependencies": {
+        "SqlAnalyticsDomain": {
+          "target": "project"
+        },
         "SqlAnalyticsManager": {
           "target": "project"
         },

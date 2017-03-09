@@ -64,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SqlAnalyticsDomain\SqlAnalyticsDomain.csproj">
+      <Project>{5eeb8533-e967-4b17-ae6b-2832e3e3cee2}</Project>
+      <Name>SqlAnalyticsDomain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqlAnalyticsManager\SqlAnalyticsManager.csproj">
       <Project>{88d1a487-8b8a-4f39-926c-8e35208e7c36}</Project>
       <Name>SqlAnalyticsManager</Name>
