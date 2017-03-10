@@ -27,7 +27,7 @@ namespace SqlAnalyticsTest
 
             };
 
-            messages=_parser.ParseSqlOverviewStats(messages);
+            //messages=_parser.ParseSqlOverviewStats(messages);
 
             Assert.AreEqual(messages[0].LogicalReads==2000,true);
             Assert.AreEqual(messages[0].LobLogicalReads == 20.23m, true);

@@ -14,8 +14,8 @@ namespace SqlAnalyticsDomain.Domain
     public class SqlStatsParser
     {
         private const string _ioStatsPattern = @"^Table\s'(?<TableName>\w+)'.*logical reads\s(?<LogicalReads>\d*\.?\d*),\sphysical.*\blob logical reads\s(?<LobLogicalReads>\d*\.?\d*)";
-        
-        private const string _cpuTimePattern = "";
+        private const string _cpuTimePattern = @"CPU time\s=\s(?<CPUTime>\d*\.?\d*).*elapsed time\s=\s(?<ElapsedTime>\d*\.?\d*)";
+
         private Regex _ioStatsRegex = null;
         private Regex _cpuStatsRegex = null;
 
@@ -29,17 +29,33 @@ namespace SqlAnalyticsDomain.Domain
         /// parse sql statss
         /// </summary>
         /// <returns></returns>
-        public List<SqlOverviewMessages> ParseSqlOverviewStats(List<SqlOverviewMessages> sqlMessages)
+        public Tuple<decimal,List<SqlOverviewMessages>> ParseSqlOverviewStats(List<SqlOverviewMessages> sqlMessages)
         {
-            foreach( var sqlMessage in sqlMessages)
+            decimal cpuTime = 0.00m;
+            SetIOStats(sqlMessages);
+            //cpuTime = GetCPUStats(sqlMessages);
+            return Tuple.Create(cpuTime,sqlMessages);
+        }
+
+        private void SetIOStats(List<SqlOverviewMessages> sqlMessages)
+        {
+           // decimal cpuTime = 0.0m;
+            foreach (var sqlMessage in sqlMessages)
             {
                 var match = _ioStatsRegex.Match(sqlMessage.Description);
-                sqlMessage.TableName = match.Groups["TableName"].Value; 
-                sqlMessage.LogicalReads =Convert.ToDecimal( match.Groups["LogicalReads"].Value); 
+                //var cpuMatch = _ioStatsRegex.Match(sqlMessage.Description);
+                sqlMessage.TableName = match.Groups["TableName"].Value;
+                sqlMessage.LogicalReads = Convert.ToDecimal(match.Groups["LogicalReads"].Value);
                 sqlMessage.LobLogicalReads = Convert.ToDecimal(match.Groups["LobLogicalReads"].Value);
-             }
+            }
+        }
 
-            return sqlMessages;
+        private void GetCPUStats(SqlOverviewMessages sqlMessage)
+        {
+            var match = _ioStatsRegex.Match(sqlMessage.Description);
+            sqlMessage.TableName = match.Groups["TableName"].Value;
+            sqlMessage.LogicalReads = Convert.ToDecimal(match.Groups["LogicalReads"].Value);
+            sqlMessage.LobLogicalReads = Convert.ToDecimal(match.Groups["LobLogicalReads"].Value);
         }
     }
 }
