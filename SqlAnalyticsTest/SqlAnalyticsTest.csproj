@@ -60,6 +60,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="OptimizerRepoTest.cs" />
+    <Compile Include="ParseSqlOverviewStatsTest.cs" />
     <Compile Include="SqlPlanTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

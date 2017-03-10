@@ -20,6 +20,7 @@ namespace SqlAnalyticsManager
         public SqlStatisticsSummary GetSqlStatistcis(string connectionString, string sql)
         {
             var overViewModel = _optimizerRepo.GetSqlExecutionPlan(connectionString, sql);
+
             var sqlStatistics = _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
             return new SqlStatisticsSummary();
         }
