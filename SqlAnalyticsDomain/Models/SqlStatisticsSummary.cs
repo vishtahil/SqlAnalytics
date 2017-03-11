@@ -11,15 +11,15 @@ namespace SqlAnalyticsManager.Models
         public SqlStatisticsSummary()
         {
             this.SqlPlanStatisticsModel = new List<SqlPlanStatisticsModel>();
-            this.SqlPlanOverviewModel = new List<SqlPlanOveriviewModel>();
+            this.SqlPlanOverviewModel = new SqlPlanOveriviewModel();
             this.SqlOptimizationHint= new List<SqlOptimizationHint>();
         }
 
-        public IList<SqlPlanStatisticsModel> SqlPlanStatisticsModel { get; set; }
+        public List<SqlPlanStatisticsModel> SqlPlanStatisticsModel { get; set; }
 
-        public IList<SqlPlanOveriviewModel> SqlPlanOverviewModel { get; set; }
+        public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; }
 
-        public IList<SqlOptimizationHint> SqlOptimizationHint { get; set; }
+        public List<SqlOptimizationHint> SqlOptimizationHint { get; set; }
     }
 
     

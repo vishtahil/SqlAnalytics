@@ -19,43 +19,57 @@ namespace SqlAnalyticsDomain.Domain
         private Regex _ioStatsRegex = null;
         private Regex _cpuStatsRegex = null;
 
-        public  SqlStatsParser()
+        public SqlStatsParser()
         {
             _ioStatsRegex = new Regex(_ioStatsPattern);
-            _cpuStatsRegex= new Regex(_cpuTimePattern);
+            _cpuStatsRegex = new Regex(_cpuTimePattern);
         }
 
         /// <summary>
         /// parse sql statss
         /// </summary>
         /// <returns></returns>
-        public Tuple<decimal,List<SqlOverviewMessages>> ParseSqlOverviewStats(List<SqlOverviewMessages> sqlMessages)
+        public SqlPlanOveriviewModel ParseSqlOverviewStats(SqlPlanOveriviewModel sqlPlanOveriviewModel)
         {
-            decimal cpuTime = 0.00m;
-            SetIOStats(sqlMessages);
-            //cpuTime = GetCPUStats(sqlMessages);
-            return Tuple.Create(cpuTime,sqlMessages);
+            SetCPUStats(sqlPlanOveriviewModel);
+            SetIOStats(sqlPlanOveriviewModel);
+            return sqlPlanOveriviewModel;
         }
 
-        private void SetIOStats(List<SqlOverviewMessages> sqlMessages)
+        /// <summary>
+        /// Set IO Statistics
+        /// </summary>
+        /// <param name="sqlMessages"></param>
+        private void SetIOStats(SqlPlanOveriviewModel sqlPlanOveriviewModel)
         {
-           // decimal cpuTime = 0.0m;
+            var sqlMessages = sqlPlanOveriviewModel.SqlOverviewMessages.Where(x => x.Description.Contains("Table")).ToList();
             foreach (var sqlMessage in sqlMessages)
             {
                 var match = _ioStatsRegex.Match(sqlMessage.Description);
-                //var cpuMatch = _ioStatsRegex.Match(sqlMessage.Description);
                 sqlMessage.TableName = match.Groups["TableName"].Value;
                 sqlMessage.LogicalReads = Convert.ToDecimal(match.Groups["LogicalReads"].Value);
                 sqlMessage.LobLogicalReads = Convert.ToDecimal(match.Groups["LobLogicalReads"].Value);
             }
+            sqlPlanOveriviewModel.SqlOverviewMessages = sqlMessages;
+            sqlPlanOveriviewModel.TotalLogicReads = sqlMessages.Sum(x => x.LogicalReads);
         }
 
-        private void GetCPUStats(SqlOverviewMessages sqlMessage)
+        /// <summary>
+        /// Set CPU Statistics
+        /// </summary>
+        /// <param name="sqlMessages"></param>
+        /// <returns></returns>
+        private void SetCPUStats(SqlPlanOveriviewModel sqlPlanOveriviewModel)
         {
-            var match = _ioStatsRegex.Match(sqlMessage.Description);
-            sqlMessage.TableName = match.Groups["TableName"].Value;
-            sqlMessage.LogicalReads = Convert.ToDecimal(match.Groups["LogicalReads"].Value);
-            sqlMessage.LobLogicalReads = Convert.ToDecimal(match.Groups["LobLogicalReads"].Value);
+             var sqlMessages = sqlPlanOveriviewModel.SqlOverviewMessages.Where(x => x.Description.Contains("CPU time")).ToList();
+             foreach (var sqlMessage in sqlMessages)
+            {
+                var cpuMatch = _cpuStatsRegex.Match(sqlMessage.Description);
+                var elapsedTime = Convert.ToDecimal(cpuMatch.Groups["ElapsedTime"].Value);
+                if (elapsedTime == 0) continue;
+                sqlPlanOveriviewModel.TotalElapsedTime = elapsedTime;
+                sqlPlanOveriviewModel.TotalCpuTime = Convert.ToDecimal(cpuMatch.Groups["CPUTime"].Value);
+            }
         }
     }
 }

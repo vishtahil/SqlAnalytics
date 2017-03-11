@@ -9,12 +9,14 @@ namespace SqlAnalyticsManager.Models
 {
     public class SqlPlanOveriviewModel
     {
-        public IList<SqlOverviewMessages> SqlOverviewMessages { get; set; }
+        public List<SqlOverviewMessages> SqlOverviewMessages { get; set; }
 
         public string SqlExecutionPlan { get; set; }
 
         public decimal TotalCpuTime { get; set; }
-         
+
+        public decimal TotalElapsedTime { get; set; }
+
         public decimal TotalLogicReads { get; set; } 
     }
 
