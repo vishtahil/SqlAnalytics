@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IntegrationTests\SqlIntegrationTests.cs" />
     <Compile Include="OptimizerRepoTest.cs" />
     <Compile Include="ParseSqlOverviewStatsTest.cs" />
     <Compile Include="SqlPlanTest.cs" />

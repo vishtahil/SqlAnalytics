@@ -18,7 +18,7 @@ namespace SqlAnalyticsManager.Models
         public string TableName { get; set; }
         public decimal EstimateIO { get; set; }
         public decimal EstimateCPU { get; set; }
-        public long EstimateRows { get; set; }
+        public decimal EstimateRows { get; set; }
         public decimal EstimateTotalSubTreeCost { get; set; }
         public string StatementText { get; set; }
         public int NodeId { get; set; }

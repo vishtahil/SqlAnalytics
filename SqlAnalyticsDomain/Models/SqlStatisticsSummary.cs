@@ -8,18 +8,13 @@ namespace SqlAnalyticsManager.Models
 {
     public class SqlStatisticsSummary
     {
-        public SqlStatisticsSummary()
-        {
-            this.SqlPlanStatisticsModel = new List<SqlPlanStatisticsModel>();
-            this.SqlPlanOverviewModel = new SqlPlanOveriviewModel();
-            this.SqlOptimizationHint= new List<SqlOptimizationHint>();
-        }
+        public List<SqlPlanStatisticsModel> SqlPlanStatisticsModel { get; set; } = new List<Models.SqlPlanStatisticsModel>();
 
-        public List<SqlPlanStatisticsModel> SqlPlanStatisticsModel { get; set; }
+        public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; } = new SqlPlanOveriviewModel();
 
-        public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; }
+        public List<SqlOptimizationHint> SqlOptimizationHint { get; set; } = new List<Models.SqlOptimizationHint>();
 
-        public List<SqlOptimizationHint> SqlOptimizationHint { get; set; }
+        public string NormalizedSql { get; set; }
     }
 
     

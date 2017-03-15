@@ -34,8 +34,8 @@ namespace SqlAnalyticsTest
         public void GetExecutionPlanStatistics()
         {
             string sqlPlan = System.IO.File.ReadAllText($"{ _testDataLocation}/RandomSqlPlan.xml");
-            var dataTable = _optimizerRepo.GetSqlPlanStatistics(_connectionString, sqlPlan);
-            Assert.AreEqual(dataTable != null, true);
+            var sqlPlanStatistics = _optimizerRepo.GetSqlPlanStatistics(_connectionString, sqlPlan);
+            Assert.AreEqual(sqlPlanStatistics.Count()>0, true);
         }
         
         [TestMethod]

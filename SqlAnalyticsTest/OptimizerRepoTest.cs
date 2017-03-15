@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using SqlAnalytics.Domain;
 using System.Collections.Generic;
+using SqlAnalyticsManager.Models;
+using SqlAnalyticsDomain.Domain;
 
 namespace SqlOptimizer.Tests.OptimizerRepo
 {
@@ -12,11 +14,13 @@ namespace SqlOptimizer.Tests.OptimizerRepo
     public class OptimizerRepoTest
     {
         private readonly SqlNormalizer _normalizer;
+        private SqlHintsEvaluator _sqlHintsEvaluator;
 
 
         public OptimizerRepoTest()
         {
             _normalizer = new SqlNormalizer();
+            _sqlHintsEvaluator = new SqlHintsEvaluator();
         }
         
 
@@ -50,6 +54,13 @@ namespace SqlOptimizer.Tests.OptimizerRepo
         public void CheckForCorrelatedSubQuery()
         {
             var sql = @"SELECT employee_number, name
+            FROM employees AS Bob
+            WHERE salary > (
+            SELECT AVG(salary)
+            FROM employees
+            WHERE department = Bob.department);
+
+SELECT employee_number, name
             FROM employees AS Bob
             WHERE salary > (
             SELECT AVG(salary)
@@ -212,53 +223,118 @@ SELECT Name
             OR Name = 'Touring Bikes')
             ";
 
-            sql = _normalizer.Normalize(sql);
+            var sqlOptimizerHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
+            //sql = _normalizer.Normalize(sql);
 
-            var firstSet = new string[]
-                {
-                   // @"\b(NOT IN\s?\(\s?SELECT.*?\))",
-                    //@"\b(NOT EXISTS\s?\(\s?SELECT.*?\))",
-                    @"\bIN\s?\(\s?SELECT.*?\)",
-                    @"\b(EXISTS\s?\(\s?SELECT.*?\))",
-                    @"\b(JOIN\s?\(\s?SELECT.*?\))",
-                    @",\s?\(\s?SELECT.*?\)",
-                   // @"\b(LEFT OUTER JOIN\s?\(\s?SELECT.*?\))",
-                   // @"\b(RIGHT OUTER JOIN\s?\(\s?SELECT.*?\))",
-                   // @"\b(CROSS JOIN\s?\(\s?SELECT.*?\))",
-                   // @"\b(FULL JOIN\s?\(\s?SELECT.*?\))",
-                   // @"\b(LEFT JOIN\s?\(\s?SELECT.*?\))",
-                   // @"\b(RIGHT JOIN\s?\(\s?SELECT.*?\))",
-                    @">\s?\(\s?SELECT.*?\)",
-                    @"<\s?\(\s?SELECT.*?\)",
-                    @"=\s?\(\s?SELECT.*?\)"
-                };
+            //var matchList = new Dictionary<string, string>()
+            //{
+            //    { "LEFT","LEFT_JOIN"},
+            //    { "RIGHT","RIGHT_JOIN"},
+            //    { "FULL","FULL_JOIN"},
+            //    { "INNER","INNER_JOIN"},
+            //    { "CROSS","CROSS_JOIN"},
+            //    { "<","NESTED_LESS_THAN"},
+            //    { ">","NESTED_GREATER_THAN"},
+            //    { "=","NESTED_EQUAL_TO"},
+            //    { "IN","NESTED_IN"},
+            //    { "EXISTS","NESTED_EXISTS"}
+            //};
 
-            sql = GetFormattedInput(sql, firstSet);
 
-            /*var secondSet = new string[]
-                {
-                    @"\bJOIN\s?\(\s?SELECT.*?\)",
-                    @"\bIN\s?\(\s?SELECT.*?\)",
-                    @"\bEXISTS\s?\(\s?SELECT.*?\)"
-                };*/
+            //var firstSet = new Dictionary<string, string>()
+            //    {
+            //        {@"\b(in\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.NESTED_IN.ToString() },
+            //        {@"\b(exists\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.NESTED_EXISTS.ToString() },
+            //        {@"\b(cross\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.CROSS_JOIN.ToString() },
+            //        {@"\b(left\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.LEFT_JOIN.ToString() },
+            //        {@"\b(inner\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.INNER_JOIN.ToString() },
+            //        {@"\b(full\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.FULL_JOIN.ToString() },
+            //        {@"\b(right\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.RIGHT_JOIN.ToString() },
+            //        {@"\b(right\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.RIGHT_JOIN.ToString() },
+            //        {@"\b(left\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.LEFT_JOIN.ToString() },
+            //        {@"\b(full\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.FULL_JOIN.ToString() },
+            //        {@",\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_SELECT.ToString() },
+            //        {@">\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_GREATER_THAN.ToString() },
+            //        {@"<\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_LESS_THAN.ToString() },
+            //        {@"=\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_EQUAL_TO.ToString() }
+            //    };
 
-            //sql = GetFormattedInput(sql, secondSet);
+            //sql = GetFormattedInput(sql, firstSet);
+
+            ///*var secondSet = new string[]
+            //    {
+            //        @"\bJOIN\s?\(\s?SELECT.*?\)",
+            //        @"\bIN\s?\(\s?SELECT.*?\)",
+            //        @"\bEXISTS\s?\(\s?SELECT.*?\)"
+            //    };*/
+
+            ////sql = GetFormattedInput(sql, secondSet);
 
             Assert.AreEqual(true, true);
         }
 
-        private static string GetFormattedInput(string sql, string[] patterns)
+        private SqlOptimizationHint sqlClauseContains(Match metamatch)
         {
-            var regex = "(" + String.Join(")|(", patterns) + ")";
+            var matchList = new Dictionary<string, string>()
+            {
+                { "LEFT","LEFT_JOIN"},
+                { "RIGHT","RIGHT_JOIN"},
+                { "FULL","FULL_JOIN"},
+                { "INNER","INNER_JOIN"},
+                { "CROSS","CROSS_JOIN"},
+                { "<","NESTED_LESS_THAN"},
+                { ">","NESTED_GREATER_THAN"},
+                { "=","NESTED_EQUAL_TO"},
+                { "IN","NESTED_IN"},
+                { "EXISTS","NESTED_EXISTS"}
+            };
 
+            var regex = "(" + String.Join(")|(", matchList.Keys.ToArray()) + ")";
+
+            foreach (Match matchedClause in Regex.Matches(metamatch.Value
+               , regex  /*@"(memb)|(deb)"*/
+               , RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture))
+            {
+                return new SqlOptimizationHint() { };
+                
+            }
+            return null;
+           
+        }
+
+        private  string GetFormattedInput(string sql, Dictionary<string,string> patterns)
+        {
+            List<SqlOptimizationHint> sqlOptimizationHints 
+                = new List<SqlOptimizationHint>();
+
+            foreach(var pattern in patterns.Keys.ToArray())
+            {
+                var matches = Regex.Matches(sql, pattern,RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
+                if(matches != null)
+                {
+                    sqlOptimizationHints.Add(new SqlOptimizationHint()
+                    {
+                        MatchedExpression=pattern,
+                        MatchedSqlClause=patterns[pattern],
+                    });
+                }
+            }
+
+
+            var regex = "(" + String.Join(")|(", patterns) + ")";
+            var _normalizedSql = _normalizer.Normalize(sql);
+
+            
             foreach (Match metamatch in Regex.Matches(sql
                , regex  /*@"(memb)|(deb)"*/
                , RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture))
             {
-                sql = sql.Replace(metamatch.Value, $"<br/><span style='color:red;font-weight:bold'> {metamatch.Value}</span>");
+                
+                sql = sql.Replace(metamatch.Value, $"<span style='color:red;font-weight:bold'>{metamatch.Value}</span>");
             }
 
-            sql = Regex.Replace(sql, @"(<br/><span style='color:red;font-weight:bold'>)+", @"<br/><span style='color:red;font-weight:bold'>");
+            sql = Regex.Replace(sql, @"(<span style='color:red;font-weight:bold'>)+", @"<span style='color:red;font-weight:bold'>");
+            sql = Regex.Replace(sql, @"(</span>)+", @"</span>");
 
             return sql;
         }

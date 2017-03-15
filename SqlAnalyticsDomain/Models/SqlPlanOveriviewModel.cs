@@ -9,7 +9,8 @@ namespace SqlAnalyticsManager.Models
 {
     public class SqlPlanOveriviewModel
     {
-        public List<SqlOverviewMessages> SqlOverviewMessages { get; set; }
+
+        public List<SqlOverviewMessages> SqlOverviewMessages { get; set; } = new List<Models.SqlOverviewMessages>();
 
         public string SqlExecutionPlan { get; set; }
 

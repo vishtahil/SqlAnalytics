@@ -74,9 +74,9 @@ namespace SqlAnalytics.Repo
         /// <param name="sqlPlan"></param>
         /// <returns></returns>
 
-        public DataTable GetSqlPlanStatistics(string connectionString, string sqlPlan)
+        public List<SqlPlanStatisticsModel> GetSqlPlanStatistics(string connectionString, string sqlPlan)
         {
-
+            List<SqlPlanStatisticsModel> statistics = new List<SqlPlanStatisticsModel>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -328,18 +328,51 @@ namespace SqlAnalytics.Repo
                                    , f.TotalNodeCost
                     FROM #Final f ";
                 #endregion
-
                 using (SqlCommand command = new SqlCommand(commandText, connection))
                 {
                     using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
                     {
                         DataTable dt = new DataTable();
                         dataAdapter.Fill(dt);
-                        return dt;
+                        //return dt;
+                    }
+                }
+                using (SqlCommand command = new SqlCommand(commandText, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var stats = new SqlPlanStatisticsModel();
+                            stats.DailyQueryID = GetSafeColumnValue<Int32>(reader, "DailyQueryID");
+                            stats.DatabaseName = GetSafeColumnValue<string>(reader, "DatabaseName");
+                            stats.EstimateCPU = GetSafeColumnValue<decimal>(reader, "EstimateCPU");
+                            stats.EstimateIO = GetSafeColumnValue<decimal>(reader, "EstimateIO");
+                            stats.EstimateRows = GetSafeColumnValue<decimal>(reader, "EstimateRows");
+                            stats.EstimateTotalSubTreeCost = reader.GetDecimal(reader.GetOrdinal("EstimateTotalSubTreeCost"));
+                            stats.IndexName = GetSafeColumnValue<string>(reader, "IndexName");
+                            stats.LogicalOperation = GetSafeColumnValue<string>(reader, "LogicalOperation");
+                            stats.NodeId = GetSafeColumnValue<Int32>(reader, "NodeId");
+                            stats.ParentNodeId = GetSafeColumnValue<Int32>(reader, "ParentNodeId");
+                            stats.PhysicalOperation = GetSafeColumnValue<string>(reader, "PhysicalOperation");
+                            stats.PullDate = GetSafeColumnValue<DateTime>(reader, "PullDate");
+                            stats.SchemaName = GetSafeColumnValue<string>(reader, "SchemaName");
+                            stats.StatementText = GetSafeColumnValue<string>(reader, "StatementText");
+                            stats.TableName = GetSafeColumnValue<string>(reader, "TableName");
+                            stats.TotalNodeCost = GetSafeColumnValue<decimal>(reader, "TotalNodeCost");
+                            statistics.Add(stats);
+                        }
                     }
                 }
 
             }
+            return statistics;
+        }
+
+        public T GetSafeColumnValue<T>(SqlDataReader reader, string column)
+        {
+            var columnOrdinal = reader.GetOrdinal(column);
+            return reader.IsDBNull(columnOrdinal) ? default (T) : (T)reader.GetValue(columnOrdinal);
         }
     }
 }
