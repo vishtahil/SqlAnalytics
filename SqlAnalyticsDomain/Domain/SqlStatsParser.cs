@@ -13,7 +13,7 @@ namespace SqlAnalyticsDomain.Domain
     /// </summary>
     public class SqlStatsParser
     {
-        private const string _ioStatsPattern = @"^Table\s'(?<TableName>\w+)'.*logical reads\s(?<LogicalReads>\d*\.?\d*),\sphysical.*\blob logical reads\s(?<LobLogicalReads>\d*\.?\d*)";
+        private const string _ioStatsPattern = @"^Table\s'(?<TableName>[\w\s]+)'.*logical reads\s(?<LogicalReads>\d*\.?\d*),\sphysical.*\blob logical reads\s(?<LobLogicalReads>\d*\.?\d*)";
         private const string _cpuTimePattern = @"CPU time\s=\s(?<CPUTime>\d*\.?\d*).*elapsed time\s=\s(?<ElapsedTime>\d*\.?\d*)";
 
         private Regex _ioStatsRegex = null;

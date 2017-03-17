@@ -4,6 +4,7 @@ using SqlAnalyticsDomain.Domain;
 using SqlAnalyticsManager.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,22 +28,15 @@ namespace SqlAnalyticsManager
 
         public SqlStatisticsSummary GetSqlStatistcis(string connectionString, string sql)
         {
-            //get information about logical reads and cpu time
-            var overViewModel = GetSqlOverviewModel(connectionString, sql);
-
-            //get statistics about sql plan
-            var sqlStatistics = _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
-            
-            //normalize aql
-            var normalizedSql = _sqlNormalizer.Normalize(sql);
-
-            var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
-            
+            var   overViewModel = GetSqlOverviewModel(connectionString, sql);
+            var planStats = _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
+            var   optimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
+           
             return new SqlStatisticsSummary()
             {
                 SqlPlanOverviewModel = overViewModel,
-                SqlPlanStatisticsModel = sqlStatistics,
-                NormalizedSql=normalizedSql
+                SqlPlanStatisticsModel = planStats,
+                SqlOptimizationHints = optimizationHints
             };
         }
 

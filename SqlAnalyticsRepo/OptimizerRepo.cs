@@ -328,15 +328,7 @@ namespace SqlAnalytics.Repo
                                    , f.TotalNodeCost
                     FROM #Final f ";
                 #endregion
-                using (SqlCommand command = new SqlCommand(commandText, connection))
-                {
-                    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
-                    {
-                        DataTable dt = new DataTable();
-                        dataAdapter.Fill(dt);
-                        //return dt;
-                    }
-                }
+               
                 using (SqlCommand command = new SqlCommand(commandText, connection))
                 {
                     using (var reader = command.ExecuteReader())
