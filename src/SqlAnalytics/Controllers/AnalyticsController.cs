@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Specialized;
+using SqlAnalytics.Models;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,14 +27,9 @@ namespace SqlAnalytics.Controllers
         }
         
         [HttpPost("Analytics")]
-        public IActionResult GetSqlAnalytics([FromBody]string sql)
+        public IActionResult GetSqlAnalytics( [FromBody]AnalyticsModel analytics)
         {
-
-            return Ok(new TodoItem()
-            {
-                Name = "vishal",
-                IsComplete = true
-            });
+            return Ok(analytics);
         }
     }
 }
