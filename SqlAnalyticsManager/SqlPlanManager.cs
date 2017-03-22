@@ -18,7 +18,12 @@ namespace SqlAnalyticsManager
         private SqlNormalizer _sqlNormalizer;
         private SqlHintsEvaluator _sqlHintsEvaluator;
 
-        public SqlPlanManager(string connectionString)
+        public SqlPlanManager(string connectionString):this()
+        {
+           
+        }
+
+        public SqlPlanManager()
         {
             _optimizerRepo = new OptimizerRepo();
             _sqlStatsParser = new SqlStatsParser();

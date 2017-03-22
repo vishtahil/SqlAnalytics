@@ -12,6 +12,7 @@ namespace SqlAnalyticsManager.Models
 
         public List<SqlOverviewMessages> SqlOverviewMessages { get; set; } = new List<Models.SqlOverviewMessages>();
 
+        [JsonIgnore]
         public string SqlExecutionPlan { get; set; }
 
         public decimal TotalCpuTime { get; set; }
