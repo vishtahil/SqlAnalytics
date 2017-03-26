@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Specialized;
 using SqlAnalytics.Models;
 using SqlAnalyticsManager;
+using System.Text;
 
 namespace SqlAnalytics.Controllers
 {
@@ -23,6 +24,8 @@ namespace SqlAnalytics.Controllers
         [HttpPost("Analytics")]
         public IActionResult GetSqlAnalytics( [FromBody]AnalyticsModel analytics)
         {
+            analytics.ConnectionString = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64ConnectionString));
+            analytics.Sql = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64Sql));
             var analyticsSummary = _sqlManager.GetSqlStatistcis(analytics.ConnectionString,
                 analytics.Sql);
             return Ok(analyticsSummary);

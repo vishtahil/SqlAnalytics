@@ -19,16 +19,37 @@ namespace SqlAnalyticsDomain.Domain
                 {@"\b(inner\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.INNER_JOIN.ToString() },
                 {@"\b(full\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.FULL_JOIN.ToString() },
                 {@"\b(right\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.RIGHT_JOIN.ToString() },
-                {@"\b(right\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.RIGHT_JOIN.ToString() },
-                {@"\b(left\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.LEFT_JOIN.ToString() },
-                {@"\b(full\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.FULL_JOIN.ToString() },
+                {@"\b(right\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.RIGHT_OUTER_JOIN.ToString() },
+                {@"\b(left\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.LEFT_OUTER_JOIN.ToString() },
+                {@"\b(full\s*[\r\n]*outer\s*[\r\n]*join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))",SqlClause.FULL_OUTER_JOIN.ToString() },
                 {@",\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_SELECT.ToString() },
                 {@">\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_GREATER_THAN.ToString() },
                 {@"<\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_LESS_THAN.ToString() },
                 {@"=\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_EQUAL_TO.ToString() },
+                {@"\b(FROM\s*[\r\n]*\(\s*[\r\n]*SELECT[^)]*\))",SqlClause.NESTED_SELECT_FROM.ToString() },
+
             };
 
-         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";
+
+        public static Dictionary<string, string> OperatorPatternSet = new Dictionary<string, string>()
+            {
+                {SqlClause.NESTED_IN.ToString() ,"Contains Nested Sub Query with IN clause."},
+                {SqlClause.NESTED_EXISTS.ToString(),"Contains Nested Sub Query  with EXISTS clause." },
+                {SqlClause.CROSS_JOIN.ToString(),"Contains CROSS JOIN Operator" },
+                {SqlClause.LEFT_JOIN.ToString(),"Contains Nested Sub Query  with LEFT JOIN clause." },
+                {SqlClause.INNER_JOIN.ToString(),"Contains Nested Sub Query  with INNER JOIN clause."},
+                {SqlClause.FULL_JOIN.ToString(),"Contains Nested Sub Query  with FULL JOIN clause."},
+                {SqlClause.RIGHT_JOIN.ToString(),"Contains Nested Sub Query  with RIGHT JOIN clause."},
+                {SqlClause.LEFT_OUTER_JOIN.ToString(),"Contains Sub Query  Select with LEFT OUTER JOIN clause."},
+                {SqlClause.FULL_OUTER_JOIN.ToString(),"Contains Sub Query  Select with FULL OUTER JOIN clause."},
+                {SqlClause.NESTED_SELECT.ToString(),"Contains Nested Sub Query  Statement." },
+                {SqlClause.NESTED_GREATER_THAN.ToString(),"Contains Nested Sub Query  with GREATER THAN Clause" },
+                {SqlClause.NESTED_LESS_THAN.ToString(),"Contains Nested Sub Query  with LESS THAN Clause" },
+                {SqlClause.NESTED_EQUAL_TO.ToString(),"Contains Nested Sub Query  with EQUAL TO Clause" },
+                {SqlClause.NESTED_SELECT_FROM.ToString(),"Contains Nested Sub Query with SELECT Clause" },
+            };
+
+        public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";
         
 
 
@@ -51,15 +72,16 @@ namespace SqlAnalyticsDomain.Domain
                 var matches = Regex.Matches(sql, pattern, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
                 if (matches != null)
                 {
-                    sqlOptimizationHints.Add(new SqlOptimizationHint()
-                    {
-                        MatchedExpression = pattern,
-                        MatchedSqlClause = sqlPatterns[pattern]
-                    });
-                    
                     //store all the matched values
                     foreach(Match match in matches)
                     {
+                        sqlOptimizationHints.Add(new SqlOptimizationHint()
+                        {
+                            MatchedExpression = pattern,
+                            MatchedSqlClause = sqlPatterns[pattern],
+                            MatchedSqlText = OperatorPatternSet[sqlPatterns[pattern]]
+
+                        });
                         matchedValues.Add(match.Value);
                     }
                 }
@@ -76,7 +98,8 @@ namespace SqlAnalyticsDomain.Domain
                     sqlOptimizationHints.Add(new SqlOptimizationHint()
                     {
                         MatchedExpression = NESTED_JOIN_PATTERN,
-                        MatchedSqlClause = SqlClause.NESTED_JOIN.ToString()
+                        MatchedSqlClause = SqlClause.NESTED_JOIN.ToString(),
+                        MatchedSqlText= OperatorPatternSet[SqlClause.NESTED_JOIN.ToString()]
                     });
                 }
             }

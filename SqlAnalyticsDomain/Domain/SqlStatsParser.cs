@@ -29,6 +29,19 @@ namespace SqlAnalyticsDomain.Domain
         /// parse sql statss
         /// </summary>
         /// <returns></returns>
+        public string InjectSqlStats(string dynamicSql)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("SET STATISTICS TIME ON;");
+            stringBuilder.AppendLine("SET STATISTICS IO ON;");
+            stringBuilder.Append(dynamicSql);
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// parse sql statss
+        /// </summary>
+        /// <returns></returns>
         public SqlPlanOveriviewModel ParseSqlOverviewStats(SqlPlanOveriviewModel sqlPlanOveriviewModel)
         {
             SetCPUStats(sqlPlanOveriviewModel);

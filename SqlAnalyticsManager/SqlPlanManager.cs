@@ -33,10 +33,11 @@ namespace SqlAnalyticsManager
 
         public SqlStatisticsSummary GetSqlStatistcis(string connectionString, string sql)
         {
-            var   overViewModel = GetSqlOverviewModel(connectionString, sql);
+            var dynamicSql = _sqlStatsParser.InjectSqlStats(sql);
+            var overViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
             var planStats = _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
-            var   optimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
-           
+            var optimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
+
             return new SqlStatisticsSummary()
             {
                 SqlPlanOverviewModel = overViewModel,

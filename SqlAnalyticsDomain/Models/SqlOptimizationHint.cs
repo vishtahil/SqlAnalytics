@@ -11,6 +11,8 @@ namespace SqlAnalyticsManager.Models
         public string MatchedValue { get; set; }
         public string MatchedExpression { get; set; }
         public string MatchedSqlClause { get; set; }
+
+        public string MatchedSqlText { get; set; }
     }
     public enum SqlClause
     {
@@ -26,6 +28,11 @@ namespace SqlAnalyticsManager.Models
         NESTED_IN,
         NESTED_EXISTS,
         NESTED_SELECT,
-        NESTED_JOIN
+        NESTED_JOIN,
+        FULL_OUTER_JOIN,
+        RIGHT_OUTER_JOIN,
+        LEFT_OUTER_JOIN,
+        NESTED_SELECT_FROM,
+
     }
 }
