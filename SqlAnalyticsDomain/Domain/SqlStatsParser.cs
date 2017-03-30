@@ -63,7 +63,7 @@ namespace SqlAnalyticsDomain.Domain
                 sqlMessage.LogicalReads = Convert.ToDecimal(match.Groups["LogicalReads"].Value);
                 sqlMessage.LobLogicalReads = Convert.ToDecimal(match.Groups["LobLogicalReads"].Value);
             }
-            sqlPlanOveriviewModel.SqlOverviewMessages = sqlMessages;
+            sqlPlanOveriviewModel.SqlOverviewMessages = sqlMessages.OrderByDescending(x=>x.LogicalReads).ThenByDescending(x=>x.LogicalReads).ToList();
             sqlPlanOveriviewModel.TotalLogicReads = sqlMessages.Sum(x => x.LogicalReads);
         }
 

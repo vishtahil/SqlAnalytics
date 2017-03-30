@@ -35,7 +35,7 @@ namespace SqlAnalyticsManager
         {
             var dynamicSql = _sqlStatsParser.InjectSqlStats(sql);
             var overViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
-            var planStats = _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
+            var  planStats = GetSqlPlanStats(connectionString, overViewModel);
             var optimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
 
             return new SqlStatisticsSummary()
@@ -44,6 +44,17 @@ namespace SqlAnalyticsManager
                 SqlPlanStatisticsModel = planStats,
                 SqlOptimizationHints = optimizationHints
             };
+        }
+        /// <summary>
+        /// Get Sql Execution Plan Statistics 
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="overViewModel"></param>
+        /// <returns></returns>
+        private List<SqlPlanStatisticsModel> GetSqlPlanStats(string connectionString, SqlPlanOveriviewModel overViewModel)
+        {
+            var planStats= _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
+            return planStats.OrderByDescending(x => x.EstimateRows).ThenByDescending(x => x.EstimateCPU).ThenByDescending(x => x.EstimateIO).ToList();
         }
 
         /// <summary>

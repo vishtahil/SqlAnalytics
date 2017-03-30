@@ -10,7 +10,7 @@ namespace SqlAnalyticsTest.IntegrationTests
         private SqlPlanManager _sqlPlanManager;
         private string _testDataLocation = "./TestData";
         private string _connectionString = @"Data Source =(LocalDB)\MSSQLLocalDB;Initial Catalog=Northwind;Integrated Security = True;Connect Timeout = 30; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
+        
         public SqlIntegrationTests()
         {
             _sqlPlanManager = new SqlPlanManager(_connectionString);
