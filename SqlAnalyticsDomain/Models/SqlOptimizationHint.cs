@@ -33,6 +33,7 @@ namespace SqlAnalyticsManager.Models
         RIGHT_OUTER_JOIN,
         LEFT_OUTER_JOIN,
         NESTED_SELECT_FROM,
-
+        BLOCK_SELECT,
+        ORDER_BY
     }
 }

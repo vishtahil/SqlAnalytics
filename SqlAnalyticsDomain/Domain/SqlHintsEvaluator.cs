@@ -27,9 +27,9 @@ namespace SqlAnalyticsDomain.Domain
                 {@"<\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_LESS_THAN.ToString() },
                 {@"=\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_EQUAL_TO.ToString() },
                 {@"\b(FROM\s*[\r\n]*\(\s*[\r\n]*SELECT[^)]*\))",SqlClause.NESTED_SELECT_FROM.ToString() },
-
+                {@"select\s*[\r\n]*([a-zA-Z]+\.)?\*",SqlClause.BLOCK_SELECT.ToString() },
+                {@"order\s+[\r\n]*by",SqlClause.ORDER_BY.ToString() },
             };
-
 
         public static Dictionary<string, string> OperatorPatternSet = new Dictionary<string, string>()
             {
@@ -38,6 +38,7 @@ namespace SqlAnalyticsDomain.Domain
                 {SqlClause.CROSS_JOIN.ToString(),"Contains CROSS JOIN Operator" },
                 {SqlClause.LEFT_JOIN.ToString(),"Contains Nested Sub Query  with LEFT JOIN clause." },
                 {SqlClause.INNER_JOIN.ToString(),"Contains Nested Sub Query  with INNER JOIN clause."},
+                {SqlClause.NESTED_JOIN.ToString(),"Contains Nested Sub Query swith JOIN clause."},
                 {SqlClause.FULL_JOIN.ToString(),"Contains Nested Sub Query  with FULL JOIN clause."},
                 {SqlClause.RIGHT_JOIN.ToString(),"Contains Nested Sub Query  with RIGHT JOIN clause."},
                 {SqlClause.LEFT_OUTER_JOIN.ToString(),"Contains Sub Query  Select with LEFT OUTER JOIN clause."},
@@ -47,6 +48,8 @@ namespace SqlAnalyticsDomain.Domain
                 {SqlClause.NESTED_LESS_THAN.ToString(),"Contains Nested Sub Query  with LESS THAN Clause" },
                 {SqlClause.NESTED_EQUAL_TO.ToString(),"Contains Nested Sub Query  with EQUAL TO Clause" },
                 {SqlClause.NESTED_SELECT_FROM.ToString(),"Contains Nested Sub Query with SELECT Clause" },
+                { SqlClause.BLOCK_SELECT.ToString(),"Contains SELECT * statement" },
+                { SqlClause.ORDER_BY.ToString(),"Contains ORDER BY Clause" },
             };
 
         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";
