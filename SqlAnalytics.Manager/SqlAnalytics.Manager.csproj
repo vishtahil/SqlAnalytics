@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SqlAnalytics.Domain\SqlAnalytics.Domain.csproj" />
+    <ProjectReference Include="..\SqlAnalytics.Repo\SqlAnalytics.Repo.csproj" />
+  </ItemGroup>
+
+</Project>

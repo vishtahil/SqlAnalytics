@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
@@ -13,9 +13,6 @@
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
-    <ProjectReference Include="..\..\SqlAnalyticsDomain\SqlAnalyticsDomain.csproj" />
-    <ProjectReference Include="..\..\SqlAnalyticsManager\SqlAnalyticsManager.csproj" />
-    <ProjectReference Include="..\..\SqlAnalyticsRepo\SqlAnalyticsRepo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

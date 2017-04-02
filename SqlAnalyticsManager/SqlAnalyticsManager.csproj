@@ -43,16 +43,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlPlanManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SqlAnalyticsDomain\SqlAnalyticsDomain.csproj">
-      <Project>{5eeb8533-e967-4b17-ae6b-2832e3e3cee2}</Project>
-      <Name>SqlAnalyticsDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SqlAnalyticsRepo\SqlAnalyticsRepo.csproj">
-      <Project>{fbfbc4ce-9fb4-4c03-ab26-8056bdc17e0c}</Project>
-      <Name>SqlAnalyticsRepo</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
