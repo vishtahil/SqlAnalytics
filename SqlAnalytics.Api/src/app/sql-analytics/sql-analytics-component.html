@@ -9,7 +9,8 @@
           <form #sqlForm="ngForm" novalidate>
             <div class="form-group row" [class.has-error]="connText.invalid && connText.touched" *ngIf="!showResults">
               <div class="col-md-12">
-                <input type="text" #connText="ngModel" required class="form-control" id="txtConString" placeholder="Enter Connection String" name="ConnectionString" [(ngModel)]="sqlModel.ConnectionString">
+                <input type="text" #connText="ngModel" required class="form-control" id="txtConString" placeholder="Enter Connection String"
+                  name="ConnectionString" [(ngModel)]="sqlModel.ConnectionString">
                 <div *ngIf="connText.invalid && connText.touched" class="alert alert-danger">Connection String is required.</div>
               </div>
             </div>
@@ -34,12 +35,15 @@
             </div>
             <div class="form-group row">
               <div class="col-md-11">
-                <button type="button" (click)="showResults=false;" class="btn btn-success pull-right">Back</button>
+                <button type="button" (click)="showResults=false;loading=false;" class="btn btn-success pull-right">Back</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="loading" class="col-md-6" >
+      <div class="loader" style="margin:auto;margin-top: 130px;"></div>
     </div>
     <div *ngIf="showResults" class="col-md-6">
       <div class="panel panel-success">
@@ -55,9 +59,7 @@
               <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || []"></sql-analytics-plan>
             </tab>
             <tab heading="Sql Optimization">
-              <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" 
-              (onSqlHint)="onSqlHint($event)"
-              [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
+              <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
             </tab>
           </tabset>
         </div>

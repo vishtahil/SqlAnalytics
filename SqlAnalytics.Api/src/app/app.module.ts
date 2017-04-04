@@ -9,6 +9,7 @@ import {SqlAnalyticsOverviewComponent} from './sql-analytics/sql-analytics-overv
 import {SqlAnalyticsPlanComponent} from './sql-analytics/sql-analytics-plan-component';
 import {SqlAnalyticsOptimizeComponent} from './sql-analytics/sql-analytics-optimize-component';
 import { WindowRef } from './shared/windows-wrapper';
+import {StorageRef} from './shared/local-storage-wrapper'
 import { TabsModule } from 'ng2-bootstrap';
 import { SanitizeHtml } from './shared/sanitize-html.pipe';
 
@@ -18,7 +19,7 @@ import { SanitizeHtml } from './shared/sanitize-html.pipe';
     declarations: [AppComponent,SanitizeHtml,SqlAnalyticsComponent,SqlAnalyticsPlanComponent,
     SqlAnalyticsOverviewComponent,SqlAnalyticsOptimizeComponent],
     bootstrap: [AppComponent],
-    providers: [ WindowRef ]
+    providers: [ WindowRef,StorageRef ]
 })
 export class AppModule { }
 
