@@ -1,0 +1,27 @@
+<div style="height:10px"></div>
+<div class="alert alert-success" role="alert" style="padding:5px 5px 5px 5px;margin:0">
+  <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
+  <span>Total CPU Time :{{sqlOverViewModel.TotalCpuTime}} milliseconds</span>
+</div>
+<div class="alert alert-success" role="alert" style="padding:5px 5px 5px 5px;margin-top:5px">
+  <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
+  <span>Total Elapsed Time :{{sqlOverViewModel.TotalElapsedTime}} milliseconds</span>
+</div>
+
+<table class="table table-bordered" *ngIf="sqlOverViewModel?.SqlOverviewMessages.length>0">
+  <thead>
+    <tr style="background:#ccc;">
+      <th>Operation</th>
+      <th>Logical Reads</th>
+      <th>Lob Logical Reads</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let colValue of sqlOverViewModel.SqlOverviewMessages">
+      <td>{{colValue.TableName}}</td>
+      <td>{{colValue.LogicalReads}}</td>
+      <td>{{colValue.LobLogicalReads}}</td>
+    </tr>
+  </tbody>
+</table>
+<pre style="display:none">{{sqlOverViewModel | json}}</pre>

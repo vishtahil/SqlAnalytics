@@ -1,0 +1,10 @@
+<div style="height:10px"></div>
+<div *ngIf="sqlHintsModel?.length>0">
+  <ng-container *ngFor="let hint of sqlHintsModel">
+    <div (click)="matchPattern(hint)" class="alert alert-warning" role="alert" style="padding:5px 5px 5px 5px;margin:5px">
+      <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
+      <span>{{hint.MatchedSqlText}}</span>
+    </div>
+  </ng-container>
+</div>
+<pre style="display:none">{{sqlHintsModel | json}}</pre>

@@ -20,6 +20,7 @@ namespace SqlAnalytics.Api
                 .Build();
 
             host.Run();
+          
         }
     }
 }

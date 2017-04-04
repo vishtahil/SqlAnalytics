@@ -1,0 +1,67 @@
+<div class="container-fluid" style="margin-top:60px;margin-left:5px;margin-right:5px;">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Sql Analytics - Sql Statement</h3>
+        </div>
+        <div *ngIf="!showResults" class="panel-body" style="min-height:300px">
+          <form #sqlForm="ngForm" novalidate>
+            <div class="form-group row" [class.has-error]="connText.invalid && connText.touched" *ngIf="!showResults">
+              <div class="col-md-12">
+                <input type="text" #connText="ngModel" required class="form-control" id="txtConString" placeholder="Enter Connection String" name="ConnectionString" [(ngModel)]="sqlModel.ConnectionString">
+                <div *ngIf="connText.invalid && connText.touched" class="alert alert-danger">Connection String is required.</div>
+              </div>
+            </div>
+            <div class="form-group row" [class.has-error]="sqlText.invalid && sqlText.touched">
+              <div class="col-md-12">
+                <textarea rows="15" class="form-control" #sqlText="ngModel" placeholder="Formatted Sql Satement" required name="Sql" [(ngModel)]="sqlModel.Sql"></textarea>
+                <div *ngIf="sqlText.invalid && sqlText.touched" class="alert alert-danger">Sql is required.</div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <button type="submit" [disabled]="sqlForm.invalid" (click)="onSubmitBackButtonClick(sqlForm)" class="btn btn-success">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="showResults" class="panel-body" style="min-height:300px">
+          <div class="row">
+            <div class="col-md-12">
+              <pre [innerHTML]="sqlStmt | sanitizeHtml"></pre>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-11">
+                <button type="button" (click)="showResults=false;" class="btn btn-success pull-right">Back</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showResults" class="col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Statistics</h3>
+        </div>
+        <div class="panel-body" style="min-height:300px">
+          <tabset [justified]="true">
+            <tab heading="Overview">
+              <sql-analytics-overview [sqlOverViewModel]="_analyticsModel?.SqlPlanOverviewModel || {}"></sql-analytics-overview>
+            </tab>
+            <tab heading="Sql Execution Plan">
+              <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || []"></sql-analytics-plan>
+            </tab>
+            <tab heading="Sql Optimization">
+              <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" 
+              (onSqlHint)="onSqlHint($event)"
+              [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

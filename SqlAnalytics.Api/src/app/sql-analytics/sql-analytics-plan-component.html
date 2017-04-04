@@ -1,0 +1,39 @@
+<div style="height:10px"></div>
+<!--"DailyQueryID": 1,
+    "PullDate": "2017-03-24T00:00:00",
+    "PhysicalOperation": "Sort",
+    "LogicalOperation": "Distinct Sort",
+    "IndexName": null,
+    "DatabaseName": null,
+    "SchemaName": null,
+    "TableName": null,
+    "EstimateIO": 0.0112613,
+    "EstimateCPU": 0.0104547,
+    "EstimateRows": 700,
+    "EstimateTotalSubTreeCost": 0.286713,
+    "StatementText": "SELECT CrossProd.ProductID, \n CrossProd.EmployeeID,  \n ISNULL(UnitsSold, 0) as Unitsold, isnull(TotalSales, $0) as TotalSales \n FROM (SELECT Employees.EmployeeID, Products.ProductID \n FROM Employees, Products) AS CrossProd  \n LEFT JOIN (  \n SELECT ProductID, EmployeeID,  \n SUM(Quantity) AS UnitsSold, \n SUM(Quantity * UnitPrice) AS TotalSales \n FROM Orders \n JOIN [Order Details] \n ON Orders.OrderID = [Order Details].OrderID \n GROUP BY ProductID, EmployeeID ) AS AnnualSales \n ON CrossProd.EmployeeID = AnnualSales.EmployeeID \n AND CrossProd.ProductID = AnnualSales.ProductID \n UNION \nSELECT 0 AS ProductID, Employees.EmployeeID, \n CAST(isnull(SUM(Quantity),0) as numeric(12)) AS UnitsSold, \n isnull(SUM(Quantity * UnitPrice), $0) AS TotalSales \n FROM Orders \n JOIN [Order Details] \n ON Orders.OrderID = [Order Details].OrderID \n RIGHT JOIN Employees \n ON Orders.EmployeeID = Employees.EmployeeID \n GROUP BY Employees.EmployeeID \nORDER BY 2, 1",
+    "NodeId": 0,
+    "ParentNodeId": 0,
+    "TotalNodeCost": 0.021716   -->                  
+<table class="table table-bordered" *ngIf="sqlPlanModel?.length>0">
+  <thead>
+    <tr style="background:#ccc;">
+      <th>Operation</th>
+      <th>Estimated IO Cost</th>
+      <th>Estimated CPU Cost</th>
+      <th>Estimated Rows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let colValue of sqlPlanModel" [ngClass]="setClasses(colValue)">
+      <td>
+      <span>{{colValue.PhysicalOperation}}</span>
+      <span style="color:navy" *ngIf="colValue.PhysicalOperation!=colValue.LogicalOperation"><br/>({{colValue.LogicalOperation}})</span>
+      </td>
+      <td>{{colValue.EstimateIO}}</td>
+      <td>{{colValue.EstimateCPU}} ms</td>
+      <td>{{colValue.EstimateRows}}</td>
+    </tr>
+  </tbody>
+</table>
+<pre>{{sqlPlanModel | json}}</pre>
