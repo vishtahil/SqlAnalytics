@@ -20,5 +20,9 @@
     </div>
   </div>
 </nav>
-<sql-analytics></sql-analytics>
 
+<sql-analytics></sql-analytics>
+<div class="alert alert-danger" *ngIf="!alertClosed">
+    <a href="#" class="close" (click)="alertClosed=true;" data-dismiss="alert">&times;</a>
+    {{alertMessage}}
+</div>

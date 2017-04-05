@@ -21,7 +21,7 @@ namespace SqlAnalytics.Repo
 
             var sqlPlanOveriviewModel = new SqlPlanOveriviewModel();
             var listOverviewMessages = new List<SqlOverviewMessages>();
-            
+           
             using (var connection = new SqlConnection(connectionString))
             {
                 if (connection.State != System.Data.ConnectionState.Open)

@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Diagnostics;
+using SqlAnalytics.Api.Middleware;
 
 namespace SqlAnalytics.Api
 {
@@ -58,6 +60,8 @@ namespace SqlAnalytics.Api
       });
 
       app.UseFileServer(enableDirectoryBrowsing: false);
+
+      app.UseMiddleware(typeof(ErrorHandlingMiddleware));
       app.UseMvc();
 
     }
