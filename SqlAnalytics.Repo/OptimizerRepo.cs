@@ -18,7 +18,6 @@ namespace SqlAnalytics.Repo
         /// <returns></returns>
         public SqlPlanOveriviewModel GetSqlExecutionPlan(string connectionString, string dynamicSql)
         {
-
             var sqlPlanOveriviewModel = new SqlPlanOveriviewModel();
             var listOverviewMessages = new List<SqlOverviewMessages>();
            

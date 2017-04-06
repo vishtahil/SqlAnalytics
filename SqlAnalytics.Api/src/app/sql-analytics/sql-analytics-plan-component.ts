@@ -30,7 +30,6 @@ export class SqlAnalyticsPlanComponent implements OnInit, OnChanges{
     }
     
     setClasses(colValue:SqlPlanStatisticsModel) {
-        console.log("whats happening");
         var alertShow=this.showAlert(colValue);
         let classes =  {
             'alert': alertShow,    

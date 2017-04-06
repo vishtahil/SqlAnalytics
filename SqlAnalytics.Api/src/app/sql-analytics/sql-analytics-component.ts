@@ -22,7 +22,7 @@ https://plnkr.co/edit/fYxjHY5xALoLuqaQze6u?p=preview
   selector: 'sql-analytics',
   templateUrl: './sql-analytics-component.html',
   styles: [``],
-  providers: [SqlAnalyticsService,ErrorNotifyService]
+  providers: [SqlAnalyticsService]
 })
 
 
@@ -34,6 +34,7 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
   _analyticsModel: SqlStatisticsSummary;
   sqlModel: SqlModel;
   sqlStmt: string = '';
+
 
   ngOnInit() {
     console.log("on init");
