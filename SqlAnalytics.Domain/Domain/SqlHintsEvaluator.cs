@@ -53,7 +53,7 @@ namespace SqlAnalyticsDomain.Domain
                 { SqlClause.BLOCK_SELECT.ToString(),"Contains SELECT * statement" },
                 { SqlClause.ORDER_BY.ToString(),"Contains ORDER BY Clause" },
                 { SqlClause.LIKE_BEGIN.ToString(),"Contains LIKE expression with leading wildcards" },
-                { SqlClause.WHERE_FUNCTION_PRECEEDING.ToString(),"Conatains function on table column after where  where clause" },
+                { SqlClause.WHERE_FUNCTION_PRECEEDING.ToString(),"Conatains function on table column after where clause" },
             };
 
         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";
