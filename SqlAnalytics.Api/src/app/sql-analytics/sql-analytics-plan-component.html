@@ -1,4 +1,4 @@
-<div style="height:10px"></div>
+﻿<div style="height:10px"></div>
 <!--"DailyQueryID": 1,
     "PullDate": "2017-03-24T00:00:00",
     "PhysicalOperation": "Sort",
@@ -21,6 +21,7 @@
       <th>Operation</th>
       <th>Estimated IO Cost</th>
       <th>Estimated CPU Cost</th>
+      <th>Sql Statement Cost</th>
       <th>Estimated Rows</th>
     </tr>
   </thead>
@@ -32,6 +33,7 @@
       </td>
       <td>{{colValue.EstimateIO}}</td>
       <td>{{colValue.EstimateCPU}} ms</td>
+      <td>{{colValue.TotalNodeCost}}</td>
       <td>{{colValue.EstimateRows}}</td>
     </tr>
   </tbody>
