@@ -27,8 +27,10 @@ namespace SqlAnalyticsDomain.Domain
                 {@"<\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_LESS_THAN.ToString() },
                 {@"=\s*[\r\n]*\(\s*[\r\n]*select[^)]*\)",SqlClause.NESTED_EQUAL_TO.ToString() },
                 {@"\b(FROM\s*[\r\n]*\(\s*[\r\n]*SELECT[^)]*\))",SqlClause.NESTED_SELECT_FROM.ToString() },
-                {@"select\s*[\r\n]*([a-zA-Z]+\.)?\*",SqlClause.BLOCK_SELECT.ToString() },
+                {@"select\s*[\r\n]*[a-zA-Z0-9,\.\s]*\*",SqlClause.BLOCK_SELECT.ToString() },
                 {@"order\s+[\r\n]*by",SqlClause.ORDER_BY.ToString() },
+                {@"like\s*[\r\n]*\'%",SqlClause.LIKE_BEGIN.ToString() },
+                {@"where[^=<>\)]*\(|and[^=<>\)]*\(",SqlClause.WHERE_FUNCTION_PRECEEDING.ToString() },
             };
 
         public static Dictionary<string, string> OperatorPatternSet = new Dictionary<string, string>()
@@ -50,6 +52,8 @@ namespace SqlAnalyticsDomain.Domain
                 {SqlClause.NESTED_SELECT_FROM.ToString(),"Contains Nested Sub Query with SELECT Clause" },
                 { SqlClause.BLOCK_SELECT.ToString(),"Contains SELECT * statement" },
                 { SqlClause.ORDER_BY.ToString(),"Contains ORDER BY Clause" },
+                { SqlClause.LIKE_BEGIN.ToString(),"Contains LIKE expression with leading wildcards" },
+                { SqlClause.WHERE_FUNCTION_PRECEEDING.ToString(),"Conatains function on table column after where  where clause" },
             };
 
         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";

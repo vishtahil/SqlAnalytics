@@ -58,7 +58,7 @@
             <tab heading="Sql Execution Plan">
               <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || []"></sql-analytics-plan>
             </tab>
-            <tab heading="Sql Optimization">
+            <tab heading="Sql Lint">
               <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
             </tab>
           </tabset>
