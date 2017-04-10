@@ -21,7 +21,9 @@ https://plnkr.co/edit/fYxjHY5xALoLuqaQze6u?p=preview
 @Component({
   selector: 'sql-analytics',
   templateUrl: './sql-analytics-component.html',
-  styles: [``],
+  styles: [`
+   .lint-badge{background-color:rgb(235, 204, 209);color:rgb(169, 68, 66);}
+  `],
   providers: [SqlAnalyticsService]
 })
 
@@ -53,7 +55,8 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
     let connectionString = this.storage.getItem(Utilities.Constants.CONNECTION_KEY)
       || `Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=AdventureWorks2012;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False`;
     this._analyticsModel = new SqlStatisticsSummary();
-    this.sqlModel = new SqlModel(connectionString, '');
+    let sqlText=this.storage.getItem(Utilities.Constants.SQL_KEY)||'';
+    this.sqlModel = new SqlModel(connectionString, sqlText);
   }
 
   onSqlHint(sql: string) {
@@ -63,7 +66,10 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
   onSubmitBackButtonClick(form: NgForm) {
     this.loading = true;
     this.sqlStmt = this.sqlModel.Sql;
+
     this.storage.setItem(Utilities.Constants.CONNECTION_KEY, this.sqlModel.ConnectionString);
+    this.storage.setItem(Utilities.Constants.SQL_KEY, this.sqlModel.Sql);
+
     this._sqlAnalyticsService.getSqlSqlStats({
       "Base64ConnectionString": this.winRef.nativeWindow.btoa(this.sqlModel.ConnectionString),
       "Base64Sql": this.winRef.nativeWindow.btoa(this.sqlModel.Sql)

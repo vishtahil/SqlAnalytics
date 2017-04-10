@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="loading" class="col-md-6" >
+    <div *ngIf="loading" class="col-md-6">
       <div class="loader" style="margin:auto;margin-top: 130px;"></div>
     </div>
     <div *ngIf="showResults" class="col-md-6">
@@ -59,6 +59,9 @@
               <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || []"></sql-analytics-plan>
             </tab>
             <tab heading="Sql Lint">
+              <template tabHeading>
+                <span class="badge lint-badge">{{_analyticsModel?.SqlOptimizationHints.length}}</span>
+              </template>
               <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
             </tab>
           </tabset>
