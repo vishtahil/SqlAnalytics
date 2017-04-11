@@ -58,9 +58,10 @@
             <tab heading="Sql Execution Plan">
               <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || []"></sql-analytics-plan>
             </tab>
-            <tab heading="Sql Lint">
+            <tab>
               <template tabHeading>
-                <span class="badge lint-badge">{{_analyticsModel?.SqlOptimizationHints.length}}</span>
+                  <span >Sql Lint</span>
+                  <span class="badge lint-badge">{{_analyticsModel?.SqlOptimizationHints.length}}</span>
               </template>
               <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
             </tab>
