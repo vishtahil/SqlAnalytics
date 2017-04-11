@@ -13,7 +13,8 @@ import {StorageRef} from './shared/local-storage-wrapper'
 import { TabsModule,AlertModule ,ModalModule,TooltipModule   } from 'ngx-bootstrap';
 import { SanitizeHtml } from './shared/sanitize-html.pipe';
 import {ErrorNotifyService} from './shared/error-notify-service';
-import GlobalErrorHandler from './shared/global-error-handler'
+import GlobalErrorHandler from './shared/global-error-handler';
+import { SqlHelpDialogComponent } from './shared/sql-help-dialog/sql-help-dialog.component'
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import GlobalErrorHandler from './shared/global-error-handler'
      TabsModule.forRoot(), AlertModule.forRoot(),
      ModalModule.forRoot(),TooltipModule.forRoot()],
     declarations: [AppComponent,SanitizeHtml,SqlAnalyticsComponent,SqlAnalyticsPlanComponent,
-    SqlAnalyticsOverviewComponent,SqlAnalyticsOptimizeComponent],
+    SqlAnalyticsOverviewComponent,SqlAnalyticsOptimizeComponent, SqlHelpDialogComponent],
     bootstrap: [AppComponent],
     providers: [ WindowRef,
     StorageRef,

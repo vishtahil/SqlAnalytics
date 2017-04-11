@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit,EventEmitter, Output, SimpleChanges,ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, OnChanges,ViewChild, OnInit,EventEmitter, Output, SimpleChanges,ChangeDetectionStrategy} from '@angular/core';
 import {SqlOptimizationHint} from './sql-analytics-model';
 import {SqlHintRegexService} from './sql-hints-regex';
 
@@ -7,12 +7,6 @@ import {SqlHintRegexService} from './sql-hints-regex';
     templateUrl:'./sql-analytics-optimize-component.html',
     styles: [`
       .alert {cursor:pointer;}
-      .modal .modal-header { 
-        background-color: #d6e9c6;
-        color:#3c763d;
-        font-wight:bold;
-      }
-      .list-heading{color:green;}
   `],
     providers: [SqlHintRegexService],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,6 +20,10 @@ export class SqlAnalyticsOptimizeComponent implements OnInit, OnChanges{
     
     @Output()
     onSqlHint = new EventEmitter<string>();
+
+    @Input('title') title;
+  @Input('size') size = 'md';
+  @ViewChild('modal') modal;
 
     originalSql:string;
     

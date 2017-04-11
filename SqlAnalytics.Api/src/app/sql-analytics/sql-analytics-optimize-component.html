@@ -4,57 +4,15 @@
   <ng-container *ngFor="let hint of sqlHintsModel">
     <div style="height:10px"></div>
     <div tooltip="Click on the alert to see Sql being heightlighted  with sql clause in context." (click)="matchPattern(hint)" 
-    class="alert alert-warning" role="alert" style="padding:5px 5px 5px 5px;margin:5px">
+    class="alert alert-warning" role="alert" 
+    style="padding:5px 5px 5px 5px;margin:5px">
       <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
       <span>{{hint.MatchedSqlText}}</span>
       <i class="fa fa-question-circle" 
-          title="Click to see importtant details." (click)="smModal.show()" style="float:right;font-size:1.3em;color:#337ab7;cursor:hover"
+          title="Click to see importtant details." (click)="sqlLintModel.show()" style="float:right;font-size:1.3em;color:#337ab7;cursor:hover"
         aria-hidden="true"></i>
     </div>
   </ng-container>
 </div>
 <pre style="display:none">{{sqlHintsModel | json}}</pre>
-<div bsModal #smModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">
-          <strong>About Select *</strong></h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="smModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="list-group">
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading" style="color:green">
-              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
-              Select * returns too much data.
-            </h4>
-            <p class="list-group-item-text">
-              <cite>— Jon Galloway <a target="_blank" href="https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage">https://weblogs.asp.net/</a></cite>
-            </p>
-          </a>
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading" style="color:green">
-              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
-              SELECT * makes the Table / Index Scan.
-            </h4>
-            <p class="list-group-item-text">
-              <cite>— Jon Galloway <a target="_blank" href="https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage">https://weblogs.asp.net/</a></cite>
-            </p>
-          </a>
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading" style="color:green">
-              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
-              SELECT * is bad from application maintenance point of view.
-            </h4>
-            <p class="list-group-item-text">
-              <cite>— Jon Galloway <a target="_blank" href="https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage">https://weblogs.asp.net/</a></cite>
-            </p>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<div modal-partial #sqlLintModel></div>
