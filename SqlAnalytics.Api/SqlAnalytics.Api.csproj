@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="Content\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,5 +24,20 @@
     <ProjectReference Include="..\SqlAnalytics.Domain\SqlAnalytics.Domain.csproj" />
     <ProjectReference Include="..\SqlAnalytics.Manager\SqlAnalytics.Manager.csproj" />
     <ProjectReference Include="..\SqlAnalytics.Repo\SqlAnalytics.Repo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Content\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Content\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
