@@ -81,7 +81,6 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
     },
       (error: any) => {
         this.errorNotifyService.error(error);
-      }
-      );
+      });
   }
 }

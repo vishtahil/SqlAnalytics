@@ -3,40 +3,25 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">
-          <strong>About Select *</strong></h4>
+          <strong>Sql Optimization Hints</strong></h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="list-group">
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading" style="color:#337ab7">
-              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i> 
-              <a target="_blank" href="https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage">Select * returns too much data.</a>
-</h4>
-            <p class="list-group-item-text">
-              <cite>— Jon Galloway https://weblogs.asp.net/</cite>
-            </p>
-          </a>
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading" style="color:green">
-              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i> SELECT * makes the Table / Index
-              Scan.
-            </h4>
-            <p class="list-group-item-text">
-              <cite>— Jon Galloway <a target="_blank" href="https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage">https://weblogs.asp.net/</a></cite>
-            </p>
-          </a>
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading" style="color:green">
-              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i> SELECT * is bad from application
-              maintenance point of view.
-            </h4>
-            <p class="list-group-item-text">
-              <cite>— Jon Galloway <a target="_blank" href="https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage">https://weblogs.asp.net/</a></cite>
-            </p>
-          </a>
+        <span style="color:green;font-size:12px;"><strong>*</strong>Click on <i class="fa fa-info-circle" aria-hidden="true" style="color:#337ab7;margin-right:5px"></i>the hyperlink to see important details.</span>
+        <div class="list-group" style="margin-top:5px;">
+          <ng-container *ngFor="let helpContent of _sqlHelpContentModel">
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading" style="color:#337ab7">
+                
+                <a target="_blank" href="{{helpContent.Href}}"><i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>{{helpContent.Quote}}</a>
+              </h4>
+              <p class="list-group-item-text">
+                <cite>— {{helpContent.Cite}}</cite>
+              </p>
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>

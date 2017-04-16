@@ -2,26 +2,26 @@
   "ContentConfiguration": {
     "Content": [
       {
-        "Name": "SELECT_STAR",
+        "Name": "BLOCK_SELECT",
         "Quote": "Select * returns too much data.",
-        "Cite": "Jon Galloway {0} https://weblogs.asp.net/",
+        "Cite": "Jon Galloway https://weblogs.asp.net/",
         "Href": "https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage"
       },
       {
-        "Name": "SELECT_STAR",
+        "Name": "BLOCK_SELECT",
         "Quote": "SELECT * makes the Table / Index.",
         "Cite": "Jon Galloway https://weblogs.asp.net/",
         "Href": "https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage"
       },
       {
-        "Name": "SELECT_STAR",
+        "Name": "BLOCK_SELECT",
         "Quote": "SELECT * is bad from application.",
         "Cite": "Jon Galloway https://weblogs.asp.net/",
         "Href": "https://weblogs.asp.net/jongalloway/the-real-reason-select-queries-are-bad-index-coverage"
       },
       {
         "Name": "ORDER_BY",
-        "Quote": "Avoid ORDER BY; sort in the app instead.",
+        "Quote": "Avoid ORDER BY. Sort in the application instead.",
         "Cite": "Brent Ozar https://www.brentozar.com/",
         "Href": "https://www.brentozar.com/archive/2013/02/7-things-developers-should-know-about-sql-server/"
       }

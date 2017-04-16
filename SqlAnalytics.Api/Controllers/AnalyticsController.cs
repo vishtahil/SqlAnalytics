@@ -34,5 +34,18 @@ namespace SqlAnalytics.Controllers
           analytics.Sql);
       return Ok(analyticsSummary);
     }
+
+    [HttpGet("help/{code}")]
+    public IActionResult GetSqlLintHelp(string code)
+    {
+      var helpContentList = _contentConfig.Content.Where(x => x.Name.Equals(code, StringComparison.OrdinalIgnoreCase));
+
+      if (helpContentList.Count() > 0)
+      {
+        return Ok(helpContentList.ToList());
+      }
+
+      throw new Exception("Sql Lint help code not found");
+    }
   }
 }
