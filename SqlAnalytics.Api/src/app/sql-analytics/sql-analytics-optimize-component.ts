@@ -42,11 +42,11 @@ export class SqlAnalyticsOptimizeComponent implements OnInit, OnChanges {
     let regex = new RegExp(sqlHintModel.MatchedExpression, 'gi');
     var matches = this.sqlStmt.match(regex);
 
-    for (let match of matches) {
-      this.sqlStmt = this.sqlStmt.replace(match, `<span style='color:red;font-weight:bold'>${match}</span>`);
+    if(matches && matches.length>0){
+      this.sqlStmt=this.sqlStmt.split(matches[0]).join(`<span style='color:red;font-weight:bold'>${matches[0]}</span>`)
     }
+    
     this.onSqlHint.emit(this.sqlStmt);
-
   }
 }
 

@@ -1,4 +1,4 @@
-    export class SqlModel {
+﻿    export class SqlModel {
         
         constructor(connectstring:string, sql:string){
           this.ConnectionString=connectstring;
@@ -40,6 +40,7 @@
         public MatchedValue: string;
         public MatchedExpression: string;
         public MatchedSqlClause: string;
+        public MatchedSqlText: string;
     }
 
     export class SqlOverviewMessages {
