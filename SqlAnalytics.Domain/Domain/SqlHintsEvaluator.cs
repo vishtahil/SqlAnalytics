@@ -57,7 +57,7 @@ namespace SqlAnalyticsDomain.Domain
             };
 
         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";
-        
+
 
 
         /// <summary>
@@ -77,37 +77,34 @@ namespace SqlAnalyticsDomain.Domain
             foreach (var pattern in sqlPatterns.Keys.ToArray())
             {
                 var matches = Regex.Matches(sql, pattern, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
-                if (matches != null)
+                if (matches != null && matches.Count > 0)
                 {
-                    //store all the matched values
-                    foreach(Match match in matches)
+                    sqlOptimizationHints.Add(new SqlOptimizationHint()
                     {
-                        sqlOptimizationHints.Add(new SqlOptimizationHint()
-                        {
-                            MatchedExpression = pattern,
-                            MatchedSqlClause = sqlPatterns[pattern],
-                            MatchedSqlText = OperatorPatternSet[sqlPatterns[pattern]]
+                        MatchedExpression = pattern,
+                        MatchedSqlClause = sqlPatterns[pattern],
+                        MatchedSqlText = OperatorPatternSet[sqlPatterns[pattern]]
 
-                        });
-                        matchedValues.Add(match.Value);
-                    }
+                    });
+                    matchedValues.Add(matches[0].Value);
                 }
             }
 
             //match against second set of sql patterns
             var nestedJoinMatches = Regex.Matches(sql, NESTED_JOIN_PATTERN, RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
-            foreach(Match nestedMatch in nestedJoinMatches)
+            if (nestedJoinMatches != null && nestedJoinMatches.Count > 0)
             {
-                bool partialMatch = matchedValues.Any(x => x.Contains(nestedMatch.Value));
+                bool partialMatch = matchedValues.Any(x => x.Contains(nestedJoinMatches[0].Value));
                 if (!partialMatch)
                 {
                     sqlOptimizationHints.Add(new SqlOptimizationHint()
                     {
                         MatchedExpression = NESTED_JOIN_PATTERN,
                         MatchedSqlClause = SqlClause.NESTED_JOIN.ToString(),
-                        MatchedSqlText= OperatorPatternSet[SqlClause.NESTED_JOIN.ToString()]
+                        MatchedSqlText = OperatorPatternSet[SqlClause.NESTED_JOIN.ToString()]
                     });
+
                 }
             }
 
@@ -115,6 +112,4 @@ namespace SqlAnalyticsDomain.Domain
         }
 
     }
-
-
 }
