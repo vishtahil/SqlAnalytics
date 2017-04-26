@@ -333,10 +333,10 @@ namespace SqlAnalytics.Repo
                             var stats = new SqlPlanStatisticsModel();
                             stats.DailyQueryID = GetSafeColumnValue<Int32>(reader, "DailyQueryID");
                             stats.DatabaseName = GetSafeColumnValue<string>(reader, "DatabaseName");
-                            stats.EstimateCPU = GetSafeColumnValue<decimal>(reader, "EstimateCPU");
-                            stats.EstimateIO = GetSafeColumnValue<decimal>(reader, "EstimateIO");
-                            stats.EstimateRows = GetSafeColumnValue<decimal>(reader, "EstimateRows");
-                            stats.EstimateTotalSubTreeCost = reader.GetDecimal(reader.GetOrdinal("EstimateTotalSubTreeCost"));
+                            stats.EstimateCPU = GetSafeColumnValue<double>(reader, "EstimateCPU");
+                            stats.EstimateIO = GetSafeColumnValue<double>(reader, "EstimateIO");
+                            stats.EstimateRows = GetSafeColumnValue<double>(reader, "EstimateRows");
+                            stats.EstimateTotalSubTreeCost = GetSafeColumnValue<double>(reader, "EstimateTotalSubTreeCost");
                             stats.IndexName = GetSafeColumnValue<string>(reader, "IndexName");
                             stats.LogicalOperation = GetSafeColumnValue<string>(reader, "LogicalOperation");
                             stats.NodeId = GetSafeColumnValue<Int32>(reader, "NodeId");
