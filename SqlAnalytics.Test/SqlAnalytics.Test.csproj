@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\Convert_Implicit.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\RandomSqlPlan.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

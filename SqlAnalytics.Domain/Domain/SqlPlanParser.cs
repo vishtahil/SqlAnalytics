@@ -63,13 +63,13 @@ namespace SqlAnalyticsManager.Domain
             var nodeList = xmldoc.SelectNodes("//ns:RelOp", nameSpaceManager);
             var sqlPlanModel = new SqlPlanStatisticsModel();
             sqlPlanModel.StatementSubTreeCost = GetStatemtentSubTreeCost(xmldoc, nameSpaceManager);
+            var warnings = GetSqlWarnings(xmldoc, nameSpaceManager);
 
             sqlPlanModel.SqlPlanStats = new List<SqlPlanStats>();
 
             foreach (XmlNode node in nodeList)
             {
                 int counter = 1;
-
                 //get parent node
                 populatePlannStats(node, sqlPlanModel.SqlPlanStats, counter, nameSpaceManager);
                 counter++;
@@ -78,9 +78,7 @@ namespace SqlAnalyticsManager.Domain
             //calculate node cost and percentages
             calculateTotalNodeCost(sqlPlanModel);
             var jsonString= JsonConvert.SerializeObject(sqlPlanModel.SqlPlanStats);
-
             return sqlPlanModel;
-
         }
 
         /// <summary>
@@ -90,8 +88,8 @@ namespace SqlAnalyticsManager.Domain
         private void calculateTotalNodeCost(SqlPlanStatisticsModel sqlPlanModel)
         {
             decimal total = 0;
-            ///sql plan stats
-            foreach (var planStats in sqlPlanModel.SqlPlanStats)
+            
+            foreach (var planStats in sqlPlanModel.SqlPlanStats)///sql plan stats
             {
                 var totalCost = planStats.EstimateTotalSubTreeCost - sqlPlanModel.SqlPlanStats
                                                      .Where(x => x.ParentNodeId == planStats.NodeId)
@@ -99,13 +97,34 @@ namespace SqlAnalyticsManager.Domain
                 if (totalCost > 0)
                 {
                     planStats.TotalNodeCost = totalCost;
-                    planStats.TotalNodeCostPercentage =Math.Round( totalCost /sqlPlanModel.StatementSubTreeCost * 100,2);
+                    planStats.TotalNodeCostPercentage =Math.Round(totalCost /sqlPlanModel.StatementSubTreeCost * 100,2);
                     total += planStats.TotalNodeCostPercentage;
                 }
 
             }
         }
+        
+        /// <summary>
+        /// get sql warnings
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="nameSpaceManager"></param>
+        /// <returns></returns>
+        private KeyValuePair<string,string> GetSqlWarnings(XmlDocument xmlDoc, XmlNamespaceManager nameSpaceManager)
+        {
+            var kvp = new KeyValuePair<string, string>();
+            var warningNode = xmlDoc.SelectSingleNode("//ns:Warnings[1]", nameSpaceManager);
 
+            foreach(var node in warningNode?.ChildNodes)
+            {
+              
+
+            }
+            return kvp;
+
+        }
+
+        
 
         /// <summary>
         /// populate plan stats

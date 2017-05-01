@@ -27,7 +27,8 @@ namespace SqlAnalyticsTest
         [TestMethod]
         public void TestSqlPlan()
         {
-            string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlPlan.xml");
+            //string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlPlan.xml");
+            string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/Convert_Implicit.xml"); 
             var sqlXmlPlan = _parser.GetPlanStats(sqlText);
             Assert.AreEqual(sqlXmlPlan.SqlPlanStats?.Count > 0, true);
         }
