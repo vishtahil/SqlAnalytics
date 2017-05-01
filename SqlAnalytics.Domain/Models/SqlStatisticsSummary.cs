@@ -8,7 +8,7 @@ namespace SqlAnalyticsManager.Models
 {
     public class SqlStatisticsSummary
     {
-        public List<SqlPlanStatisticsModel> SqlPlanStatisticsModel { get; set; } = new List<Models.SqlPlanStatisticsModel>();
+        public SqlPlanStatisticsModel SqlPlanStatisticsModel { get; set; } = new Models.SqlPlanStatisticsModel();
 
         public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; } = new SqlPlanOveriviewModel();
 

@@ -69,9 +69,9 @@ namespace SqlAnalytics.Repo
         /// <param name="sqlPlan"></param>
         /// <returns></returns>
 
-        public List<SqlPlanStatisticsModel> GetSqlPlanStatistics(string connectionString, string sqlPlan)
+        public List<SqlPlanStats> GetSqlPlanStatistics(string connectionString, string sqlPlan)
         {
-            List<SqlPlanStatisticsModel> statistics = new List<SqlPlanStatisticsModel>();
+            var statistics = new List<SqlPlanStats>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -330,13 +330,13 @@ namespace SqlAnalytics.Repo
                     {
                         while (reader.Read())
                         {
-                            var stats = new SqlPlanStatisticsModel();
+                            var stats = new SqlPlanStats();
                             stats.DailyQueryID = GetSafeColumnValue<Int32>(reader, "DailyQueryID");
                             stats.DatabaseName = GetSafeColumnValue<string>(reader, "DatabaseName");
-                            stats.EstimateCPU = GetSafeColumnValue<double>(reader, "EstimateCPU");
-                            stats.EstimateIO = GetSafeColumnValue<double>(reader, "EstimateIO");
-                            stats.EstimateRows = GetSafeColumnValue<double>(reader, "EstimateRows");
-                            stats.EstimateTotalSubTreeCost = GetSafeColumnValue<double>(reader, "EstimateTotalSubTreeCost");
+                            stats.EstimateCPU = GetSafeColumnValue<decimal>(reader, "EstimateCPU");
+                            stats.EstimateIO = GetSafeColumnValue<decimal>(reader, "EstimateIO");
+                            stats.EstimateRows = GetSafeColumnValue<decimal>(reader, "EstimateRows");
+                            stats.EstimateTotalSubTreeCost = GetSafeColumnValue<decimal>(reader, "EstimateTotalSubTreeCost");
                             stats.IndexName = GetSafeColumnValue<string>(reader, "IndexName");
                             stats.LogicalOperation = GetSafeColumnValue<string>(reader, "LogicalOperation");
                             stats.NodeId = GetSafeColumnValue<Int32>(reader, "NodeId");

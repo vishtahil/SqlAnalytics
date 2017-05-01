@@ -1,6 +1,7 @@
 ﻿using SqlAnalytics.Domain;
 using SqlAnalytics.Repo;
 using SqlAnalyticsDomain.Domain;
+using SqlAnalyticsManager.Domain;
 using SqlAnalyticsManager.Models;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace SqlAnalyticsManager
         private SqlStatsParser _sqlStatsParser;
         private SqlNormalizer _sqlNormalizer;
         private SqlHintsEvaluator _sqlHintsEvaluator;
+        private SqlPlanParser _sqlPlanParser;
 
         public SqlPlanManager(string connectionString):this()
         {
@@ -29,19 +31,20 @@ namespace SqlAnalyticsManager
             _sqlStatsParser = new SqlStatsParser();
             _sqlNormalizer = new SqlNormalizer();
             _sqlHintsEvaluator = new SqlHintsEvaluator();
+            _sqlPlanParser = new SqlPlanParser();
         }
 
         public SqlStatisticsSummary GetSqlStatistcis(string connectionString, string sql)
         {
             var dynamicSql = _sqlStatsParser.InjectSqlStats(sql);
             var overViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
-            var  planStats = GetSqlPlanStats(connectionString, overViewModel);
+            var  sqlPlanMpdel = GetSqlPlanStats(connectionString, overViewModel);
             var optimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
 
             return new SqlStatisticsSummary()
             {
                 SqlPlanOverviewModel = overViewModel,
-                SqlPlanStatisticsModel = planStats,
+                SqlPlanStatisticsModel = sqlPlanMpdel,
                 SqlOptimizationHints = optimizationHints
             };
         }
@@ -51,10 +54,15 @@ namespace SqlAnalyticsManager
         /// <param name="connectionString"></param>
         /// <param name="overViewModel"></param>
         /// <returns></returns>
-        private List<SqlPlanStatisticsModel> GetSqlPlanStats(string connectionString, SqlPlanOveriviewModel overViewModel)
+        private SqlPlanStatisticsModel GetSqlPlanStats(string connectionString, SqlPlanOveriviewModel overViewModel)
         {
-            var planStats= _optimizerRepo.GetSqlPlanStatistics(connectionString, overViewModel.SqlExecutionPlan);
-            return planStats.OrderByDescending(x => x.EstimateRows).ThenByDescending(x => x.EstimateCPU).ThenByDescending(x => x.EstimateIO).ToList();
+            var sqlPlanModel = new SqlPlanStatisticsModel();
+            sqlPlanModel = _sqlPlanParser.GetPlanStats(overViewModel.SqlExecutionPlan);
+            sqlPlanModel.SqlPlanStats.OrderByDescending(x=>x.TotalNodeCost)
+                                        .ThenByDescending(x => x.EstimateRows)
+                                        .ThenByDescending(x => x.EstimateCPU)
+                                        .ThenByDescending(x => x.EstimateIO).ToList();
+            return sqlPlanModel;
         }
 
         /// <summary>
