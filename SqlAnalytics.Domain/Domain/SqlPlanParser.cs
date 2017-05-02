@@ -63,7 +63,7 @@ namespace SqlAnalyticsManager.Domain
             var nodeList = xmldoc.SelectNodes("//ns:RelOp", nameSpaceManager);
             var sqlPlanModel = new SqlPlanStatisticsModel();
             sqlPlanModel.StatementSubTreeCost = GetStatemtentSubTreeCost(xmldoc, nameSpaceManager);
-            var warnings = GetSqlWarnings(xmldoc, nameSpaceManager);
+            sqlPlanModel.Warnings = GetSqlWarnings(xmldoc, nameSpaceManager);
 
             sqlPlanModel.SqlPlanStats = new List<SqlPlanStats>();
 
@@ -71,13 +71,13 @@ namespace SqlAnalyticsManager.Domain
             {
                 int counter = 1;
                 //get parent node
-                populatePlannStats(node, sqlPlanModel.SqlPlanStats, counter, nameSpaceManager);
+                populatePlannStats(node, sqlPlanModel, counter, nameSpaceManager);
                 counter++;
             }
 
             //calculate node cost and percentages
             calculateTotalNodeCost(sqlPlanModel);
-            var jsonString= JsonConvert.SerializeObject(sqlPlanModel.SqlPlanStats);
+            //var jsonString= JsonConvert.SerializeObject(sqlPlanModel.SqlPlanStats);
             return sqlPlanModel;
         }
 
@@ -103,24 +103,36 @@ namespace SqlAnalyticsManager.Domain
 
             }
         }
-        
+
         /// <summary>
         /// get sql warnings
+        /// http://sqlblogcasts.com/blogs/sqlandthelike/archive/2011/11/29/execution-plan-warnings-the-final-chapter.aspx
         /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="nameSpaceManager"></param>
         /// <returns></returns>
-        private KeyValuePair<string,string> GetSqlWarnings(XmlDocument xmlDoc, XmlNamespaceManager nameSpaceManager)
+        private List<KeyValuePair<string,string>> GetSqlWarnings(XmlDocument xmlDoc, XmlNamespaceManager nameSpaceManager)
         {
-            var kvp = new KeyValuePair<string, string>();
+            var listKvp = new List<KeyValuePair<string, string>>();
             var warningNode = xmlDoc.SelectSingleNode("//ns:Warnings[1]", nameSpaceManager);
+            var unMatchedIndexExists = GetNodeAttributeValue<string>(warningNode, "UnmatchedIndexes");
 
-            foreach(var node in warningNode?.ChildNodes)
+            if (!string.IsNullOrEmpty(unMatchedIndexExists))
             {
-              
-
+                listKvp.Add(new KeyValuePair<string, string>(Warnings.UNMATCHED_INDEX.ToString(), Warnings.UNMATCHED_INDEX.ToString()));
             }
-            return kvp;
+
+            foreach(XmlNode  node in warningNode?.ChildNodes)
+            {
+                if (node.Name == "PlanAffectingConvert")
+                {
+                    var issue = GetNodeAttributeValue<string>(node, "ConvertIssue");
+                    var issueExpression = GetNodeAttributeValue<string>(node, "Expression");
+                    listKvp.Add(new KeyValuePair<string, string>(issue, issueExpression));
+                }
+         
+            }
+            return listKvp;
 
         }
 
@@ -132,7 +144,8 @@ namespace SqlAnalyticsManager.Domain
         /// <param name="node"></param>
         /// <param name="parentNode"></param>
         /// <param name="planStats"></param>
-        private  void populatePlannStats(XmlNode node, List<SqlPlanStats> planStats, int counter, XmlNamespaceManager nameSpaceManager)
+        private  void populatePlannStats(XmlNode node, SqlPlanStatisticsModel sqlPlanModel, 
+            int counter, XmlNamespaceManager nameSpaceManager)
         {
             var planStat = new SqlPlanStats ();
             planStat.EstimateCPU = GetNodeAttributeValue<decimal>(node, "EstimateCPU");
@@ -151,6 +164,8 @@ namespace SqlAnalyticsManager.Domain
                 planStat.ParentNodeId = GetNodeAttributeValue<int>(parentNode, "NodeId");
             }
 
+            planStat.NodeWarning = GetNodeWarningInfo(node, nameSpaceManager, sqlPlanModel.Warnings);
+
             //get index node
             var indexNode = getIndexInfo(node, nameSpaceManager);
 
@@ -162,16 +177,10 @@ namespace SqlAnalyticsManager.Domain
                 planStat.IndexName = GetNodeAttributeValue<string>(indexNode, "Index");
                 planStat.DailyQueryID = counter;
             }
-            planStats.Add(planStat);
-
-           
-                        
-                                 
+            sqlPlanModel.SqlPlanStats.Add(planStat);
+                     
         }
         
-        
-        
-
         /// <summary>
         /// get parent rel node
         /// </summary>
@@ -187,6 +196,19 @@ namespace SqlAnalyticsManager.Domain
             return null;
         }
 
+        /// <summary>
+        /// get warning info
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="nameSpaceManager"></param>
+        /// <param name="kvpWarnings"></param>
+        /// <returns></returns>
+        private KeyValuePair<string,string> GetNodeWarningInfo(XmlNode node, XmlNamespaceManager nameSpaceManager, 
+            List<KeyValuePair<string,string>> kvpWarnings)
+        {
+            var warningInfo = node.SelectSingleNode("./ns:IndexScan/ns:Predicate/ns:ScalarOperator/@ScalarString", nameSpaceManager)?.Value;
+            return kvpWarnings.Where(x => x.Value == warningInfo).FirstOrDefault();
+        }
         /// <summary>
         /// get parent rel node
         /// </summary>
@@ -208,10 +230,10 @@ namespace SqlAnalyticsManager.Domain
         {
             if (typeof(T).FullName == "System.Decimal")
             {
-                return (T)Convert.ChangeType(Convert.ToDouble(node.Attributes[name].Value), typeof(T));
+                return (T)Convert.ChangeType(Convert.ToDouble(node.Attributes[name]?.Value), typeof(T));
             }
 
-            return (T)Convert.ChangeType(node.Attributes[name].Value, typeof(T));
+            return (T)Convert.ChangeType(node.Attributes[name]?.Value, typeof(T));
         }
 
     }

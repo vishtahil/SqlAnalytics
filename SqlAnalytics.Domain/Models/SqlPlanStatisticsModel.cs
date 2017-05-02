@@ -9,7 +9,7 @@ namespace SqlAnalyticsManager.Models
     public class SqlPlanStatisticsModel
     {
         public List<SqlPlanStats> SqlPlanStats { get; set; }
-        public KeyValuePair<string,string> Warnings { get; set; }
+        public List<KeyValuePair<string, string>> Warnings { get; set; } = new List<KeyValuePair<string, string>>();
         public decimal StatementSubTreeCost { get; set; }
     }
 
@@ -32,11 +32,14 @@ namespace SqlAnalyticsManager.Models
         public int ParentNodeId { get; set; }
         public decimal TotalNodeCost { get; set; } = 0;
         public decimal TotalNodeCostPercentage { get; set; } = 0;
+        public KeyValuePair<string,string> NodeWarning { get; set; }
     }
 
     public enum Warnings
     {
-        CONVERT_IMPLICIT=1
+        CONVERT_IMPLICIT=1,
+        UNMATCHED_INDEX=2,
+
 
     }
 }

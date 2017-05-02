@@ -6,6 +6,7 @@ using SqlAnalyticsManager.Models;
 using SqlAnalyticsDomain.Domain;
 using SqlAnalyticsManager.Domain;
 using SqlAnalytics.Repo;
+using System.Linq;
 
 namespace SqlAnalyticsTest
 {
@@ -25,12 +26,24 @@ namespace SqlAnalyticsTest
         }
 
         [TestMethod]
-        public void TestSqlPlan()
+        public void TestSqlPlanWithUnMtachedIndexWarnings()
+        {
+            //string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlPlan.xml");
+            string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/UnmatchedIndex.xml");
+            var sqlXmlPlan = _parser.GetPlanStats(sqlText);
+
+            Assert.AreEqual(sqlXmlPlan.SqlPlanStats?.Count > 0, true);
+            Assert.AreEqual(sqlXmlPlan.Warnings?.Any(x => x.Key == Warnings.UNMATCHED_INDEX.ToString()), true);
+        }
+        [TestMethod]
+        public void TestSqlPlanWithWarnings()
         {
             //string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/RandomSqlPlan.xml");
             string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/Convert_Implicit.xml"); 
             var sqlXmlPlan = _parser.GetPlanStats(sqlText);
+
             Assert.AreEqual(sqlXmlPlan.SqlPlanStats?.Count > 0, true);
+            Assert.AreEqual(sqlXmlPlan.Warnings ?.Count > 0, true);
         }
 
         [TestMethod]
