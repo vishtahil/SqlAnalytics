@@ -117,6 +117,7 @@ namespace SqlAnalyticsManager.Domain
             var warningNode = xmlDoc.SelectSingleNode("//ns:Warnings[1]", nameSpaceManager);
             var unMatchedIndexExists = GetNodeAttributeValue<string>(warningNode, "UnmatchedIndexes");
 
+            //https://sahlean.wordpress.com/2013/12/01/filtered-indexes-and-parameters/*
             if (!string.IsNullOrEmpty(unMatchedIndexExists))
             {
                 listKvp.Add(new KeyValuePair<string, string>(Warnings.UNMATCHED_INDEX.ToString(), Warnings.UNMATCHED_INDEX.ToString()));
@@ -124,6 +125,7 @@ namespace SqlAnalyticsManager.Domain
 
             foreach(XmlNode  node in warningNode?.ChildNodes)
             {
+                //cardinality estimate :https://dba.stackexchange.com/questions/33528/warning-in-query-plan-cardinality-estimate#answer-34331
                 if (node.Name == "PlanAffectingConvert")
                 {
                     var issue = GetNodeAttributeValue<string>(node, "ConvertIssue");

@@ -42,6 +42,7 @@ namespace SqlAnalytics.Repo
                     using (var sqlExecutionPanCommand = connection.CreateCommand())
                     {
                         sqlExecutionPanCommand.CommandText = "SET STATISTICS XML ON";
+                        sqlExecutionPanCommand.CommandTimeout = 1800;
                         sqlExecutionPanCommand.ExecuteNonQuery();
                     }
 
