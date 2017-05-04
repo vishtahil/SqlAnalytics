@@ -115,6 +115,12 @@ namespace SqlAnalyticsManager.Domain
         {
             var listKvp = new List<KeyValuePair<string, string>>();
             var warningNode = xmlDoc.SelectSingleNode("//ns:Warnings[1]", nameSpaceManager);
+
+            if (warningNode == null)
+            {
+                return listKvp;
+            }
+
             var unMatchedIndexExists = GetNodeAttributeValue<string>(warningNode, "UnmatchedIndexes");
 
             //https://sahlean.wordpress.com/2013/12/01/filtered-indexes-and-parameters/*

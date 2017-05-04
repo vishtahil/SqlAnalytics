@@ -58,7 +58,7 @@ namespace SqlAnalyticsManager
         {
             var sqlPlanModel = new SqlPlanStatisticsModel();
             sqlPlanModel = _sqlPlanParser.GetPlanStats(overViewModel.SqlExecutionPlan);
-            sqlPlanModel.SqlPlanStats.OrderByDescending(x=>x.TotalNodeCost)
+            sqlPlanModel.SqlPlanStats= sqlPlanModel.SqlPlanStats.OrderByDescending(x=>x.TotalNodeCost)
                                         .ThenByDescending(x => x.EstimateRows)
                                         .ThenByDescending(x => x.EstimateCPU)
                                         .ThenByDescending(x => x.EstimateIO).ToList();

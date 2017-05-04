@@ -45,6 +45,7 @@ namespace SqlAnalytics.Repo
                         sqlExecutionPanCommand.CommandTimeout = 1800;
                         sqlExecutionPanCommand.ExecuteNonQuery();
                     }
+                    command.CommandTimeout = 1800;
 
                     using (var reader = command.ExecuteReader())
                     {

@@ -8,8 +8,13 @@
         public ConnectionString: string;
         public Sql: string;
     }
-    
     export class SqlPlanStatisticsModel {
+        public SqlPlanStats: SqlPlanStats[];
+        public Warnings: NodeWarning[];
+        public StatementSubTreeCost: string;
+    }
+
+    export class SqlPlanStats {
         public DailyQueryID: number;
         public PullDate: Date;
         public PhysicalOperation: string;
@@ -26,6 +31,13 @@
         public NodeId: number;
         public ParentNodeId: number;
         public TotalNodeCost: number;
+        public NodeWarning:NodeWarning;
+
+    }
+
+    export class NodeWarning{
+        public Key: string;
+        public Value: string;
     }
 
     export class SqlPlanOveriviewModel {
@@ -51,7 +63,8 @@
 
     export class SqlStatisticsSummary {
         
-        public SqlPlanStatisticsModel: SqlPlanStatisticsModel[];
+        public SqlPlanStatisticsModel: SqlPlanStatisticsModel;
         public SqlPlanOverviewModel: SqlPlanOveriviewModel;
         public SqlOptimizationHints: SqlOptimizationHint[];
+        
     }

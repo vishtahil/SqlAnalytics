@@ -56,7 +56,7 @@
               <sql-analytics-overview [sqlOverViewModel]="_analyticsModel?.SqlPlanOverviewModel || {}"></sql-analytics-overview>
             </tab>
             <tab heading="Sql Execution Plan">
-              <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || []"></sql-analytics-plan>
+              <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || {}"></sql-analytics-plan>
             </tab>
             <tab>
               <template tabHeading>
