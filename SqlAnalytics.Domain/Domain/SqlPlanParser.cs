@@ -67,9 +67,9 @@ namespace SqlAnalyticsManager.Domain
 
             sqlPlanModel.SqlPlanStats = new List<SqlPlanStats>();
 
+            int counter = 1;
             foreach (XmlNode node in nodeList)
             {
-                int counter = 1;
                 //get parent node
                 populatePlannStats(node, sqlPlanModel, counter, nameSpaceManager);
                 counter++;
@@ -156,6 +156,7 @@ namespace SqlAnalyticsManager.Domain
             int counter, XmlNamespaceManager nameSpaceManager)
         {
             var planStat = new SqlPlanStats ();
+            planStat.DailyQueryID = counter;
             planStat.EstimateCPU = GetNodeAttributeValue<decimal>(node, "EstimateCPU");
             planStat.EstimateIO = GetNodeAttributeValue<decimal>(node, "EstimateIO");
             planStat.EstimateRows = GetNodeAttributeValue<decimal>(node, "EstimateRows");
@@ -211,11 +212,17 @@ namespace SqlAnalyticsManager.Domain
         /// <param name="nameSpaceManager"></param>
         /// <param name="kvpWarnings"></param>
         /// <returns></returns>
-        private KeyValuePair<string,string> GetNodeWarningInfo(XmlNode node, XmlNamespaceManager nameSpaceManager, 
-            List<KeyValuePair<string,string>> kvpWarnings)
+        private KeyValuePair<string, string> GetNodeWarningInfo(XmlNode node, XmlNamespaceManager nameSpaceManager,
+            List<KeyValuePair<string, string>> kvpWarnings)
         {
             var warningInfo = node.SelectSingleNode("./ns:IndexScan/ns:Predicate/ns:ScalarOperator/@ScalarString", nameSpaceManager)?.Value;
-            return kvpWarnings.Where(x => x.Value == warningInfo).FirstOrDefault();
+            if (!string.IsNullOrEmpty(warningInfo))
+            {
+                return kvpWarnings.Where(x => x.Value == warningInfo || x.Value.Contains(warningInfo)).FirstOrDefault();
+            }else
+            {
+                return new KeyValuePair<string, string>();
+            }
         }
         /// <summary>
         /// get parent rel node

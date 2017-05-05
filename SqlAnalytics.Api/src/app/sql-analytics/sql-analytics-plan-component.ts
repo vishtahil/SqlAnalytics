@@ -8,13 +8,16 @@ import {SqlPlanStatisticsModel,SqlPlanStats} from './sql-analytics-model';
     templateUrl:'./sql-analytics-plan-component.html',
     styles: [`
         .borderless td, .borderless th {border: none;}
+        .planTable td{word-break: break-all;}
     `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SqlAnalyticsPlanComponent implements OnInit, OnChanges{
     @Input()
     sqlPlanModel:SqlPlanStatisticsModel;
-    operationWarnings:string[]=["Table Scan","Clustered Index Scan", "Key Lookup"]
+    operationWarnings:string[]=["Table Scan","Clustered Index Scan", "Key Lookup"];
+    planTd:any[]=[];
+
     constructor() {
     }
     

@@ -25,72 +25,98 @@
       }
     }
     ]   <-->
+
 <div class="row">
   <span style="color:green;font-size:12px;"><strong>*</strong>Click on <i class="fa fa-question-circle fa-lg"  style="color:#337ab7;" aria-hidden="true"></i>&nbsp; sign on the Alert to see important details.</span>
-  <table class="table table-bordered table-condensed" *ngIf="sqlPlanModel.SqlPlanStats?.length>0">
+  <table class="table table-bordered table-condensed planTable" *ngIf="sqlPlanModel.SqlPlanStats?.length>0">
     <thead>
       <tr style="background:#ccc;">
+        <th></th>
         <th>Operation</th>
         <th>Total Cost</th>
-        <th>Estimated IO Cost</th>
-        <th>Estimated CPU Cost</th>
-        <th>Estimated Rows</th>
+        <th>Est. IO Cost</th>
+        <th>Est. CPU Cost</th>
+        <th>Est. Rows</th>
         <th>Warning</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let colValue of sqlPlanModel.SqlPlanStats" [ngClass]="setClasses(colValue)">
-        <td>
-          <span>{{colValue.PhysicalOperation}}
+      <ng-container *ngFor="let colValue of sqlPlanModel.SqlPlanStats">
+        <tr [ngClass]="setClasses(colValue)">
+          <td>
+            <i [ngClass]="planTd[colValue.DailyQueryID]?'fa fa-minus-circle fa-1':'fa fa-plus-circle fa-1'" title="Click here to expand the row."
+              style="float:left;font-size:1.1em;color:green;
+            cursor:pointer;padding-top:5px;" aria-hidden="true" (click)="planTd[colValue.DailyQueryID]=planTd[colValue.DailyQueryID]?false:true;"></i>
+          </td>
+          <td>
+            <span> {{colValue.PhysicalOperation}}
           <ng-container *ngIf="showAlert(colValue)">
             <i class="fa fa-question-circle fa-1" title="Click to see important details." 
-            (click)="sqlLintModel.show('BLOCK_SELECT')" style="float:right;font-size:1.1em;color:#337ab7;cursor:hover"
+            (click)="sqlLintModel.show('BLOCK_SELECT')" style="font-size:1em;color:#337ab7;cursor:pointer"
               aria-hidden="true"></i>
           </ng-container>
         </span>
-          <span style="color:navy" *ngIf="colValue.PhysicalOperation!=colValue.LogicalOperation"><br/>({{colValue.LogicalOperation}})</span>
-        </td>
-        <td>{{colValue.TotalNodeCost}}</td>
-        <td>{{colValue.EstimateIO}}</td>
-        <td>{{colValue.EstimateCPU}} ms</td>
-        <td>{{colValue.EstimateRows}}</td>
-        <td>
-          <ng-container *ngIf="!!colValue.NodeWarning.Key">
-            <span>
+            <span style="color:navy" *ngIf="colValue.PhysicalOperation!=colValue.LogicalOperation"><br/>({{colValue.LogicalOperation}})</span>
+          </td>
+          <td >{{colValue.TotalNodeCost}}</td>
+          <td>{{colValue.EstimateIO}}</td>
+          <td>{{colValue.EstimateCPU}} ms</td>
+          <td>{{colValue.EstimateRows}}</td>
+          <td>
+            <ng-container *ngIf="!!colValue.NodeWarning.Key">
+              <span>
           <i style="color:red;" class="fa fa-check-circle fa-2" 
           aria-hidden="true"></i>
           </span><span>
           <i class="fa fa-question-circle fa-1" title="Click to see important details." 
-            (click)="sqlLintModel.show('BLOCK_SELECT')" style="float:right;font-size:1.2em;color:#337ab7;cursor:hover"
+            (click)="sqlLintModel.show('BLOCK_SELECT')" style="float:right;font-size:1.2em;color:#337ab7;cursor:point"
               aria-hidden="true"></i></span>
-          </ng-container>
-        </td>
-      </tr>
+            </ng-container>
+          </td>
+        </tr>
+        <tr [hidden]="!planTd[colValue.DailyQueryID]" [id]="colValue.DailyQueryID" ([ngModel])="planTd[colValue.DailyQueryID]">
+          <td colspan="7">
+            <div class="panel panel-warning" *ngIf="!!colValue.NodeWarning.Key">
+              <div class="panel-heading">
+                <h3 class="panel-title">Warnings</h3>
+              </div>
+              <div class="panel-body">
+                <ng-container>
+                  <span style="color:#8a6d3b;font-weight:bold;">{{colValue.NodeWarning.Key}}</span>
+                  <i class="fa fa-question-circle fa-1" title="Click to see important details." (click)="sqlLintModel.show('BLOCK_SELECT')"
+                    style="font-size:1.2em;color:#337ab7;cursor:pointer" aria-hidden="true"></i>
+                  <pre>{{colValue.NodeWarning.Value}}}</pre>
+                </ng-container>
+              </div>
+            </div>
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <h3 class="panel-title">Sql Operation Details</h3>
+              </div>
+              <div class="panel-body">
+                <pre>{{colValue | json}}</pre>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>
 <!--warnings-->
 <div class="panel panel-warning">
   <div class="panel-heading">
-    <h3 class="panel-title">Warnings</h3>
+    <h3 class="panel-title">Execution Plan Warnings</h3>
   </div>
   <div class="panel-body">
       <ng-container *ngFor="let colValue of sqlPlanModel.Warnings">
           <span style="color:#8a6d3b;font-weight:bold;">{{colValue.Key}}
             <i class="fa fa-question-circle fa-1" title="Click to see important details." 
-            (click)="sqlLintModel.show('BLOCK_SELECT')" style="float:right;font-size:1.2em;color:#337ab7;cursor:hover"
+            (click)="sqlLintModel.show('BLOCK_SELECT')" style="font-size:1.2em;color:#337ab7;cursor:hover"
               aria-hidden="true"></i>
           </span>
           <pre>{{colValue.Value}}}</pre>
       </ng-container>
-  </div>
-</div>
-<div class="panel panel-warning">
-  <div class="panel-heading">
-    <h3 class="panel-title">Sql Execution Plan JSON Model</h3>
-  </div>
-  <div class="panel-body">
-<pre>{{sqlPlanModel | json}}</pre>
   </div>
 </div>
 <div modal-partial #sqlLintModel></div>
