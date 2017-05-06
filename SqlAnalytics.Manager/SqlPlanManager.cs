@@ -1,4 +1,5 @@
 ﻿using SqlAnalytics.Domain;
+using SqlAnalytics.Models;
 using SqlAnalytics.Repo;
 using SqlAnalyticsDomain.Domain;
 using SqlAnalyticsManager.Domain;
@@ -34,35 +35,66 @@ namespace SqlAnalyticsManager
             _sqlPlanParser = new SqlPlanParser();
         }
 
-        public SqlStatisticsSummary GetSqlStatistcis(string connectionString, string sql)
+        /// <summary>
+        /// get sql statistics execution plan mode
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public SqlStatisticsSummary GetSqlStatistcisSqlMode(string connectionString, string sql)
         {
             var dynamicSql = _sqlStatsParser.InjectSqlStats(sql);
-            var overViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
-            var  sqlPlanMpdel = GetSqlPlanStats(connectionString, overViewModel);
-            var optimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
+            var planOverViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
+            var sqlPlanStatsModel = _sqlPlanParser.GetPlanStats(planOverViewModel.SqlExecutionPlan);
+            var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
 
             return new SqlStatisticsSummary()
             {
-                SqlPlanOverviewModel = overViewModel,
-                SqlPlanStatisticsModel = sqlPlanMpdel,
-                SqlOptimizationHints = optimizationHints
+                SqlPlanOverviewModel = planOverViewModel,
+                SqlOptimizationHints = sqlOptimizationHints,
+                SqlPlanStatisticsModel = sqlPlanStatsModel
             };
         }
+
         /// <summary>
-        /// Get Sql Execution Plan Statistics 
+        /// get sql statistics execution plan mode
         /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="overViewModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        private SqlPlanStatisticsModel GetSqlPlanStats(string connectionString, SqlPlanOveriviewModel overViewModel)
+        public SqlStatisticsSummary GetSqlStatistcisExecutionPlanMode(string executionPlan)
         {
-            var sqlPlanModel = new SqlPlanStatisticsModel();
-            sqlPlanModel = _sqlPlanParser.GetPlanStats(overViewModel.SqlExecutionPlan);
-            sqlPlanModel.SqlPlanStats= sqlPlanModel.SqlPlanStats.OrderByDescending(x=>x.TotalNodeCost)
-                                        .ThenByDescending(x => x.EstimateRows)
-                                        .ThenByDescending(x => x.EstimateCPU)
-                                        .ThenByDescending(x => x.EstimateIO).ToList();
-            return sqlPlanModel;
+            var sql = _sqlPlanParser.GetSqlFromPlan(executionPlan);
+            var sqlPlanStatsModel = _sqlPlanParser.GetPlanStats(executionPlan);
+            var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
+            
+            return new SqlStatisticsSummary()
+            {
+                 SqlOptimizationHints = sqlOptimizationHints,
+                 SqlPlanStatisticsModel= sqlPlanStatsModel
+            };
+        }
+
+        /// <summary>
+        /// get sql statistics lint mode
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public SqlStatisticsSummary GetSqlStatistcisLintMode(string sql)
+        {
+            var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
+
+            return new SqlStatisticsSummary()
+            {
+                SqlOptimizationHints = sqlOptimizationHints
+            };
+        }
+        private SqlPlanStatisticsModel GetSqlStats(string sqlExecutionPlan)
+        {
+                SqlPlanStatisticsModel sqlPlanModel = _sqlPlanParser.GetPlanStats(sqlExecutionPlan);
+                    sqlPlanModel.SqlPlanStats = sqlPlanModel.SqlPlanStats.OrderByDescending(x => x.TotalNodeCost)
+                    .ThenByDescending(x => x.EstimateRows)
+                    .ThenByDescending(x => x.EstimateCPU)
+                    .ThenByDescending(x => x.EstimateIO).ToList();
+                return sqlPlanModel;
         }
 
         /// <summary>

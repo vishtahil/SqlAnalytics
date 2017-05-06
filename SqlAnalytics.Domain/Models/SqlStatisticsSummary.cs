@@ -8,11 +8,11 @@ namespace SqlAnalyticsManager.Models
 {
     public class SqlStatisticsSummary
     {
-        public SqlPlanStatisticsModel SqlPlanStatisticsModel { get; set; } = new Models.SqlPlanStatisticsModel();
+        public SqlPlanStatisticsModel SqlPlanStatisticsModel { get; set; } 
 
-        public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; } = new SqlPlanOveriviewModel();
+        public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; } 
 
-        public List<SqlOptimizationHint> SqlOptimizationHints { get; set; } = new List<Models.SqlOptimizationHint>();
+        public List<SqlOptimizationHint> SqlOptimizationHints { get; set; } 
         
     }
 

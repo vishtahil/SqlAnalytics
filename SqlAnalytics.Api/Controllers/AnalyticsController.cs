@@ -9,6 +9,7 @@ using System.Text;
 using SqlAnalytics.Models;
 using Microsoft.Extensions.Options;
 using SqlAnalytics.Api.Configuration;
+using SqlAnalyticsManager.Models;
 
 namespace SqlAnalytics.Controllers
 {
@@ -28,10 +29,24 @@ namespace SqlAnalytics.Controllers
     [HttpPost("Analytics")]
     public IActionResult GetSqlAnalytics([FromBody]AnalyticsModel analytics)
     {
-      analytics.ConnectionString = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64ConnectionString));
-      analytics.Sql = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64Sql));
-      var analyticsSummary = _sqlManager.GetSqlStatistcis(analytics.ConnectionString,
-          analytics.Sql);
+      var analyticsSummary = new SqlStatisticsSummary();
+      var sqlExecutionPlan = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64ExecutionPlan));
+      var sql = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64Sql));
+      var connectionString = Encoding.UTF8.GetString(Convert.FromBase64String(analytics.Base64ConnectionString));
+
+      if (analytics.SqlMode == SqlAnalyticsMode.SQL_LINT_MODE)
+      {
+        analyticsSummary = _sqlManager.GetSqlStatistcisLintMode(sql);
+      }
+      else if (analytics.SqlMode == SqlAnalyticsMode.SQL_EXECUTION_PLAN_MODE)
+      {
+        analyticsSummary = _sqlManager.GetSqlStatistcisExecutionPlanMode(sqlExecutionPlan);
+      }
+      else
+      {
+        analyticsSummary = _sqlManager.GetSqlStatistcisSqlMode(connectionString,sql);
+      }
+
       return Ok(analyticsSummary);
     }
 
