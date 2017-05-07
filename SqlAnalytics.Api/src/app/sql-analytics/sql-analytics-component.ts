@@ -1,5 +1,5 @@
 //our root app component
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit,Input, OnChanges, SimpleChanges,ChangeDetectionStrategy } from '@angular/core';
 import { Http } from '@angular/http';
 import { SqlAnalyticsService } from './sql-analytics-service';
 import { SqlModel } from './sql-analytics-model';
@@ -24,7 +24,8 @@ https://plnkr.co/edit/fYxjHY5xALoLuqaQze6u?p=preview
   styles: [`
    .lint-badge{background-color:rgb(235, 204, 209);color:rgb(169, 68, 66);}
   `],
-  providers: [SqlAnalyticsService]
+  providers: [SqlAnalyticsService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
@@ -36,16 +37,21 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
   _analyticsModel: SqlStatisticsSummary;
   sqlModel: SqlModel;
   sqlStmt: string = '';
+  SQL_MODE=Utilities.Constants.SQL_MODE;
+  EXECUTION_PLAN_MODE=Utilities.Constants.EXECUTION_PLAN_MODE;
+  SQL_LINT_MODE=Utilities.Constants.SQL_LINT_MODE;
+  selectedSqlMode:string;
 
+   @Input()
+   sqlMode:string;
 
-  ngOnInit() {
-    console.log("on init");
-  }
+    ngOnInit() {
+      this.selectedSqlMode=this.sqlMode;
+    }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log("on changes");
-  }
-
+    ngOnChanges(changes: SimpleChanges) {
+      this.selectedSqlMode=this.sqlMode;
+    }
 
   constructor(private _sqlAnalyticsService: SqlAnalyticsService,
     private errorNotifyService:ErrorNotifyService,

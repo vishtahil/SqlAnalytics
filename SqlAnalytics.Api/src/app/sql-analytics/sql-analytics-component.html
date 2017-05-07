@@ -5,10 +5,11 @@
         <div class="panel-heading">
           <h3 class="panel-title">Sql Analytics - Sql Statement</h3>
         </div>
+        <h4>{{selectedSqlMode}}</h4>
         <div *ngIf="!showResults" class="panel-body" style="min-height:300px">
           <form #sqlForm="ngForm" novalidate>
             <div class="form-group row" [class.has-error]="connText.invalid && connText.touched" *ngIf="!showResults">
-              <div class="col-md-12">
+              <div class="col-md-12" *ngIf="selectedSqlMode=='SQL_MODE'">
                 <input type="text" #connText="ngModel" required class="form-control" id="txtConString" placeholder="Enter Connection String"
                   name="ConnectionString" [(ngModel)]="sqlModel.ConnectionString">
                 <div *ngIf="connText.invalid && connText.touched" class="alert alert-danger">Connection String is required.</div>
