@@ -3,26 +3,32 @@
     <div class="col-md-6">
       <div class="panel panel-success">
         <div class="panel-heading">
-          <h3 class="panel-title">Sql Analytics - Sql Statement</h3>
+          <h3 class="panel-title">
+            <span *ngIf="selectedSqlMode=='Sql Mode' || selectedSqlMode=='Sql Lint Mode'">Sql Analytics - Enter Sql Statement</span>
+            <span *ngIf="selectedSqlMode=='Execution Plan Mode'">Sql Analytics - Enter Sql Execution Plan</span>
+          </h3>
         </div>
-        <h4>{{selectedSqlMode}}</h4>
         <div *ngIf="!showResults" class="panel-body" style="min-height:300px">
           <form #sqlForm="ngForm" novalidate>
-            <div class="form-group row" [class.has-error]="connText.invalid && connText.touched" *ngIf="!showResults">
-              <div class="col-md-12" *ngIf="selectedSqlMode=='SQL_MODE'">
+            <div class="form-group row" [class.has-error]="connText.invalid && connText.touched" *ngIf="!showResults && selectedSqlMode=='Sql Mode'">
+              <div class="col-md-12">
                 <input type="text" #connText="ngModel" required class="form-control" id="txtConString" placeholder="Enter Connection String"
                   name="ConnectionString" [(ngModel)]="sqlModel.ConnectionString">
                 <div *ngIf="connText.invalid && connText.touched" class="alert alert-danger">Connection String is required.</div>
               </div>
             </div>
-            <div class="form-group row" [class.has-error]="sqlText.invalid && sqlText.touched">
+            <div *ngIf="!!selectedSqlMode" class="form-group row" [class.has-error]="sqlText.invalid && sqlText.touched">
               <div class="col-md-12">
-                <textarea rows="15" wrap="hard" class="form-control" #sqlText="ngModel" placeholder="Formatted Sql Satement" required name="Sql" [(ngModel)]="sqlModel.Sql"></textarea>
+                <textarea rows="15" wrap="hard" class="form-control" #sqlText="ngModel" placeholder="Formatted Sql Satement" required name="Sql"
+                  [(ngModel)]="sqlModel.Sql"></textarea>
                 <div *ngIf="sqlText.invalid && sqlText.touched" class="alert alert-danger">Sql is required.</div>
               </div>
             </div>
-
-            <div class="form-group row">
+            <div *ngIf="!selectedSqlMode" class="alert alert-danger" role="alert" style="font-size:15px;padding:10px 5px 5px 5px;margin:5px;height:40px;">
+              <i class="fa fa-info-circle" aria-hidden="true" style="margin-right:5px"></i>
+              <span>Please select Sql Mode</span>
+            </div>
+            <div class="form-group row" *ngIf="!!selectedSqlMode">
               <div class="col-md-12">
                 <button type="submit" [disabled]="sqlForm.invalid" (click)="onSubmitBackButtonClick(sqlForm)" class="btn btn-success">Submit</button>
               </div>
@@ -53,16 +59,22 @@
         </div>
         <div class="panel-body" style="min-height:300px">
           <tabset [justified]="true">
-            <tab heading="Overview">
+            <tab heading="Overview" *ngIf="selectedSqlMode=='Sql Mode'">
               <sql-analytics-overview [sqlOverViewModel]="_analyticsModel?.SqlPlanOverviewModel || {}"></sql-analytics-overview>
             </tab>
-            <tab heading="Sql Execution Plan">
+            <tab  *ngIf="selectedSqlMode=='Execution Plan Mode' || selectedSqlMode=='Sql Mode'">
+               <template tabHeading>
+                <span>Sql Execution Plan</span>
+                <span class="badge lint-badge">{{_analyticsModel?.SqlPlanStatisticsModel?.SqlPlanStats?.length}}</span>
+              </template>
               <sql-analytics-plan [sqlPlanModel]="_analyticsModel?.SqlPlanStatisticsModel || {}"></sql-analytics-plan>
             </tab>
-            <tab>
+            <tab *ngIf="selectedSqlMode=='Sql Mode' 
+            || selectedSqlMode=='Sql Lint Mode' 
+            || selectedSqlMode=='Execution Plan Mode'">
               <template tabHeading>
-                  <span >Sql Lint</span>
-                  <span class="badge lint-badge">{{_analyticsModel?.SqlOptimizationHints.length}}</span>
+                <span>Sql Lint</span>
+                <span class="badge lint-badge">{{_analyticsModel?.SqlOptimizationHints.length}}</span>
               </template>
               <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
             </tab>

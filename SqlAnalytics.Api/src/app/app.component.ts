@@ -1,8 +1,9 @@
-import { Component,OnDestroy } from '@angular/core';
+﻿import { Component,OnDestroy } from '@angular/core';
 import {SqlAnalyticsComponent} from './sql-analytics/sql-analytics-component';
 import {ErrorNotifyService,} from './shared/error-notify-service'
 import { Subscription }   from 'rxjs/Subscription';
 import Utilities from '../app/shared/utilities';
+import { StorageRef } from './shared/local-storage-wrapper'
 
 @Component({
   selector: 'app-root',
@@ -13,16 +14,18 @@ export class AppComponent  implements OnDestroy{
    alertClosed:boolean=true;
    alertMessage:string;
    subscription:Subscription;
-   sqlModes:string[]=[Utilities.Constants.EXECUTION_PLAN_MODE,
-   Utilities.Constants.SQL_LINT_MODE,
-   Utilities.Constants.SQL_MODE];
+   sqlModes=[Utilities.Constants.EXECUTION_PLAN_MODE,
+            Utilities.Constants.SQL_LINT_MODE,
+             Utilities.Constants.SQL_MODE];
    selectedSqlMode: string;
 
-   constructor(private errorNotifyService:ErrorNotifyService){
-   }
+   constructor(private errorNotifyService:ErrorNotifyService, private storage: StorageRef){
+    this.selectedSqlMode=this.storage.getItem(Utilities.Constants.SQL_MODE) || '';
+  }
 
    setSqlMode(mode:string){
      this.selectedSqlMode=mode;
+     this.storage.setItem(Utilities.Constants.SQL_MODE,this.selectedSqlMode);
    }
 
    ngOnInit() {

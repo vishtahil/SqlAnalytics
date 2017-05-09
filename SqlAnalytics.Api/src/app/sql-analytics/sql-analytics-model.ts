@@ -3,10 +3,13 @@
         constructor(connectstring:string, sql:string){
           this.ConnectionString=connectstring;
           this.Sql=sql;
-        }
+       
+       }
       
         public ConnectionString: string;
         public Sql: string;
+        public SqlExecutionPlan: string;
+        public SqlMode:string;
     }
     export class SqlPlanStatisticsModel {
         public SqlPlanStats: SqlPlanStats[];
