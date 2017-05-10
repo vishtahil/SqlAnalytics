@@ -36,6 +36,7 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
   sqlModel: SqlModel;
   sqlStmt: string = '';
   selectedSqlMode: string = '';
+  sqlStatement:string='';
 
   @Input()
   sqlMode: string;
@@ -89,6 +90,8 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
   onSubmitBackButtonClick(form: NgForm) {
     this.loading = true;
     this.sqlStmt = this.sqlModel.Sql;
+    this.sqlStatement=this.sqlModel.Sql;
+    
     
     this.storage.setItem(Utilities.Constants.CONNECTION_KEY, this.sqlModel.ConnectionString);
     this.storage.setItem(Utilities.Constants.SQL_KEY, this.sqlModel.Sql);
@@ -100,9 +103,15 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
       this.showResults = true;
       this.loading = false;
       console.log(this._analyticsModel);
+      if(this.selectedSqlMode==Utilities.Constants.EXECUTION_PLAN_MODE){
+        this.sqlStmt=this._analyticsModel.SqlStatement;
+        this.sqlStatement=this._analyticsModel.SqlStatement;
+        this.loading=false;
+      }
     },
       (error: any) => {
         this.errorNotifyService.error(error);
+        this.loading=false;
       });
   }
 }

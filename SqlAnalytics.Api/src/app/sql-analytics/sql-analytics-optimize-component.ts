@@ -35,9 +35,12 @@ export class SqlAnalyticsOptimizeComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.originalSql = this.sqlStmt;
+    console.log("original sql statement:");
+  
   }
 
   matchPattern(sqlHintModel: SqlOptimizationHint) {
+    console.log(this.sqlStmt);
     this.sqlStmt = this.originalSql; //restore with original
     let regex = new RegExp(sqlHintModel.MatchedExpression, 'gi');
     var matches = this.sqlStmt.match(regex);

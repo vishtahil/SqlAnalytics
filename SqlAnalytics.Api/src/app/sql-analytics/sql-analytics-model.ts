@@ -65,9 +65,8 @@
     }
 
     export class SqlStatisticsSummary {
-        
         public SqlPlanStatisticsModel: SqlPlanStatisticsModel;
         public SqlPlanOverviewModel: SqlPlanOveriviewModel;
         public SqlOptimizationHints: SqlOptimizationHint[];
-        
+        public SqlStatement:string;
     }

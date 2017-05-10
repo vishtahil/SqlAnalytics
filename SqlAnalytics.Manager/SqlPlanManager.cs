@@ -45,6 +45,7 @@ namespace SqlAnalyticsManager
             var dynamicSql = _sqlStatsParser.InjectSqlStats(sql);
             var planOverViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
             var sqlPlanStatsModel = _sqlPlanParser.GetPlanStats(planOverViewModel.SqlExecutionPlan);
+            sqlPlanStatsModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanStatsModel);
             var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
 
             return new SqlStatisticsSummary()
@@ -64,12 +65,14 @@ namespace SqlAnalyticsManager
         {
             var sql = _sqlPlanParser.GetSqlFromPlan(executionPlan);
             var sqlPlanStatsModel = _sqlPlanParser.GetPlanStats(executionPlan);
+            sqlPlanStatsModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanStatsModel);
             var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
-            
+
             return new SqlStatisticsSummary()
             {
-                 SqlOptimizationHints = sqlOptimizationHints,
-                 SqlPlanStatisticsModel= sqlPlanStatsModel
+                SqlOptimizationHints = sqlOptimizationHints,
+                SqlPlanStatisticsModel = sqlPlanStatsModel,
+                SqlStatement = sql
             };
         }
 
@@ -89,12 +92,17 @@ namespace SqlAnalyticsManager
         }
         private SqlPlanStatisticsModel GetSqlStats(string sqlExecutionPlan)
         {
-                SqlPlanStatisticsModel sqlPlanModel = _sqlPlanParser.GetPlanStats(sqlExecutionPlan);
-                    sqlPlanModel.SqlPlanStats = sqlPlanModel.SqlPlanStats.OrderByDescending(x => x.TotalNodeCost)
-                    .ThenByDescending(x => x.EstimateRows)
-                    .ThenByDescending(x => x.EstimateCPU)
-                    .ThenByDescending(x => x.EstimateIO).ToList();
-                return sqlPlanModel;
+            SqlPlanStatisticsModel sqlPlanModel = _sqlPlanParser.GetPlanStats(sqlExecutionPlan);
+            sqlPlanModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanModel);
+            return sqlPlanModel;
+        }
+
+        private  List<SqlPlanStats> sortExecutionPlanStats(SqlPlanStatisticsModel sqlPlanModel)
+        {
+            return sqlPlanModel.SqlPlanStats.OrderByDescending(x => x.TotalNodeCost)
+                                .ThenByDescending(x => x.EstimateRows)
+                                .ThenByDescending(x => x.EstimateCPU)
+                                .ThenByDescending(x => x.EstimateIO).ToList();
         }
 
         /// <summary>

@@ -76,7 +76,7 @@
                 <span>Sql Lint</span>
                 <span class="badge lint-badge">{{_analyticsModel?.SqlOptimizationHints.length}}</span>
               </template>
-              <sql-analytics-optimize [sqlStmt]="sqlModel?.Sql || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
+              <sql-analytics-optimize [sqlStmt]="sqlStatement || ''" (onSqlHint)="onSqlHint($event)" [sqlHintsModel]="_analyticsModel?.SqlOptimizationHints || []"></sql-analytics-optimize>
             </tab>
           </tabset>
         </div>

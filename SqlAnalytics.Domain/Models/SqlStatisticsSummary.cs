@@ -12,8 +12,11 @@ namespace SqlAnalyticsManager.Models
 
         public SqlPlanOveriviewModel SqlPlanOverviewModel { get; set; } 
 
-        public List<SqlOptimizationHint> SqlOptimizationHints { get; set; } 
-        
+        public List<SqlOptimizationHint> SqlOptimizationHints { get; set; }
+
+        public string SqlStatement  { get; set; }
+
+
     }
 
     
