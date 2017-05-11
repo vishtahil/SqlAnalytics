@@ -30,7 +30,8 @@ namespace SqlAnalyticsDomain.Domain
                 {@"select\s*[\r\n]*[a-zA-Z0-9,\.\s]*\*",SqlClause.BLOCK_SELECT.ToString() },
                 {@"order\s+[\r\n]*by",SqlClause.ORDER_BY.ToString() },
                 {@"like\s*[\r\n]*\'%",SqlClause.LIKE_BEGIN.ToString() },
-                {@"where[^=<>\)]*\(|and[^=<>\)]*\(",SqlClause.WHERE_FUNCTION_PRECEEDING.ToString() },
+                {@"(where|and|or|on)\s*[\r\n]*\w+\(\S+\s*[\r\n]*(<|<>|=|!=)",SqlClause.WHERE_FUNCTION_PRECEEDING.ToString() },
+                {@"(where|and|or)\s*[\r\n]*\S+\s*[\r\n]*<>",SqlClause.WHERE_NOT_EQUAL_TO.ToString() }
             };
 
         public static Dictionary<string, string> OperatorPatternSet = new Dictionary<string, string>()
@@ -53,7 +54,8 @@ namespace SqlAnalyticsDomain.Domain
                 { SqlClause.BLOCK_SELECT.ToString(),"Contains SELECT * statement" },
                 { SqlClause.ORDER_BY.ToString(),"Contains ORDER BY Clause" },
                 { SqlClause.LIKE_BEGIN.ToString(),"Contains LIKE expression with leading wildcards" },
-                { SqlClause.WHERE_FUNCTION_PRECEEDING.ToString(),"Conatains function on table column after where clause" },
+                { SqlClause.WHERE_FUNCTION_PRECEEDING.ToString(),"Contains SQL Server function on where\\join clause" },
+                { SqlClause.WHERE_NOT_EQUAL_TO.ToString(),"Contains NOT EQUAL TO operator in WHERE clause" },
             };
 
         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";

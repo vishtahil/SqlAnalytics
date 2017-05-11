@@ -36,6 +36,7 @@ namespace SqlAnalyticsManager.Models
         BLOCK_SELECT,
         ORDER_BY,
         LIKE_BEGIN,
-        WHERE_FUNCTION_PRECEEDING
+        WHERE_FUNCTION_PRECEEDING,
+        WHERE_NOT_EQUAL_TO
     }
 }
