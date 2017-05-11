@@ -1,5 +1,5 @@
 //our root app component
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input,Output ,EventEmitter,OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Http } from '@angular/http';
 import { SqlAnalyticsService } from './sql-analytics-service';
 import { SqlModel } from './sql-analytics-model';
@@ -40,6 +40,9 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
 
   @Input()
   sqlMode: string;
+
+  @Output()
+  onClearError = new EventEmitter();
 
   ngOnInit() {
 
@@ -88,6 +91,7 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
   }
 
   onSubmitBackButtonClick(form: NgForm) {
+    this.onClearError.emit();
     this.loading = true;
     this.sqlStmt = this.sqlModel.Sql;
     this.sqlStatement=this.sqlModel.Sql;

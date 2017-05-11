@@ -31,4 +31,4 @@
   <i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right:5px"></i>
   <a href="#" class="close" (click)="alertClosed=true;" data-dismiss="alert">&times;</a>{{alertMessage}}
 </div>
-<sql-analytics [sqlMode]="selectedSqlMode"></sql-analytics>
+<sql-analytics [sqlMode]="selectedSqlMode" (onClearError)="onClearError($event)"></sql-analytics>

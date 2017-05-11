@@ -23,6 +23,11 @@ export class AppComponent  implements OnDestroy{
     this.selectedSqlMode=this.storage.getItem(Utilities.Constants.SQL_MODE) || '';
   }
 
+  onClearError() {
+    this.alertClosed=true;
+    console.log("on clear error");
+  }
+
    setSqlMode(mode:string){
      this.selectedSqlMode=mode;
      this.storage.setItem(Utilities.Constants.SQL_MODE,this.selectedSqlMode);
