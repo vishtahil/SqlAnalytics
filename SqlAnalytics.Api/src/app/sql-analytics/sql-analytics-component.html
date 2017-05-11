@@ -30,7 +30,7 @@
             </div>
             <div class="form-group row" *ngIf="!!selectedSqlMode">
               <div class="col-md-12">
-                <button type="submit" [disabled]="sqlForm.invalid" (click)="onSubmitBackButtonClick(sqlForm)" class="btn btn-success">Submit</button>
+                <button type="submit" [disabled]="sqlForm.invalid" (click)="onSubmitButtonClick(sqlForm)" class="btn btn-success">Submit</button>
               </div>
             </div>
           </form>
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group row">
               <div class="col-md-11">
-                <button type="button" (click)="showResults=false;loading=false;" class="btn btn-success pull-right">Back</button>
+                <button type="button" (click)="clearResults()" class="btn btn-success pull-right">Back</button>
               </div>
             </div>
           </div>

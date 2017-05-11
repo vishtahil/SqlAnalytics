@@ -50,6 +50,7 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.selectedSqlMode = this.sqlMode;
+    this.clearResults();
   }
 
   constructor(private _sqlAnalyticsService: SqlAnalyticsService,
@@ -90,7 +91,12 @@ export class SqlAnalyticsComponent implements OnInit, OnChanges {
     return sqlObject;
   }
 
-  onSubmitBackButtonClick(form: NgForm) {
+  clearResults(){
+    this.showResults=false;
+    this.loading=false;
+  }
+
+  onSubmitButtonClick(form: NgForm) {
     this.onClearError.emit();
     this.loading = true;
     this.sqlStmt = this.sqlModel.Sql;
