@@ -30,7 +30,7 @@ namespace SqlAnalyticsDomain.Domain
                 {@"select\s*[\r\n]*[a-zA-Z0-9,\.\s]*\*",SqlClause.BLOCK_SELECT.ToString() },
                 {@"order\s+[\r\n]*by",SqlClause.ORDER_BY.ToString() },
                 {@"like\s*[\r\n]*\'%",SqlClause.LIKE_BEGIN.ToString() },
-                {@"(where|and|or|on)\s*[\r\n]*\w+\(\S+\s*[\r\n]*(<|<>|=|!=)",SqlClause.WHERE_FUNCTION_PRECEEDING.ToString() },
+                {@"(where|and|or|on)\s*[\r\n]*\w+\(\S+\s*[\r\n]*(<|>|<>|=|!=)",SqlClause.WHERE_FUNCTION_PRECEEDING.ToString() },
                 {@"(where|and|or)\s*[\r\n]*\S+\s*[\r\n]*<>",SqlClause.WHERE_NOT_EQUAL_TO.ToString() }
             };
 
