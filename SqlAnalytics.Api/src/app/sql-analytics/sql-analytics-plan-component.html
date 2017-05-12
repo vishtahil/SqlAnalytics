@@ -50,9 +50,9 @@
           </td>
           <td>
             <span> {{colValue.PhysicalOperation}}
-          <ng-container *ngIf="showAlert(colValue)">
+          <ng-container *ngIf="showHelpCodes(colValue)">
             <i class="fa fa-question-circle fa-1" title="Click to see important details." 
-            (click)="sqlLintModel.show('BLOCK_SELECT')" style="font-size:1em;color:#337ab7;cursor:pointer"
+            (click)="sqlLintModel.show(colValue.PhysicalOperation)" style="font-size:1em;color:#337ab7;cursor:pointer"
               aria-hidden="true"></i>
           </ng-container>
         </span>

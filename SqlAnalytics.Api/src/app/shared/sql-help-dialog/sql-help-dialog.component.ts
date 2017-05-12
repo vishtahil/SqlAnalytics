@@ -30,4 +30,16 @@ export class SqlHelpDialogComponent implements OnInit {
         this.errorNotifyService.error(error);
       });
   }
+
+  showExecutionPlanHelp(sqlHelpCode: string) {
+    this.sqlHelpDialogService.getSqlHelpContent(sqlHelpCode)
+      .subscribe((response: SqlHelpContentModel[]) => {
+        this._sqlHelpContentModel = response;
+        this.modal.show();
+        console.log(this._sqlHelpContentModel);
+      },
+      (error: any) => {
+        this.errorNotifyService.error(error);
+      });
+  }
 }

@@ -34,8 +34,7 @@
         public NodeId: number;
         public ParentNodeId: number;
         public TotalNodeCost: number;
-        public NodeWarning:NodeWarning;
-
+        public NodeWarning: NodeWarning;
     }
 
     export class NodeWarning{

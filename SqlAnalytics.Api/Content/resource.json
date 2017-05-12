@@ -72,6 +72,90 @@
         "Quote": "SQL Wildcard Search - Efficiency?",
         "Cite": "stackoverflow.com  http://stackoverflow.com",
         "Href": "http://stackoverflow.com/questions/11795770/sql-wildcard-search-efficiency"
+      },
+      {
+        "Name": "Hash Match",
+        "Quote": "Hash Match – SQL Server Graphical Execution Plan",
+        "Cite": "thinknook.com",
+        "Href": "http://thinknook.com/hash-match-sql-server-graphical-execution-plan-2012-03-25/"
+      },
+      {
+        "Name": "Index Scan",
+        "Quote": "SQL SERVER – Index Seek Vs. Index Scan (Table Scan)",
+        "Cite": "Pinal Dave https://blog.sqlauthority.com/",
+        "Href": "https://blog.sqlauthority.com/2007/03/30/sql-server-index-seek-vs-index-scan-table-scan/"
+      },
+      {
+        "Name": "Index Scan",
+        "Quote": "Index Scans and Table Scans",
+        "Cite": "Greg Robidoux https://www.mssqltips.com/sqlserverauthor/37/greg-robidoux/",
+        "Href": "https://www.mssqltips.com/sqlservertutorial/277/index-scans-and-table-scans/"
+      },
+      {
+        "Name": "Table Scan",
+        "Quote": "Index Scans and Table Scans",
+        "Cite": "Greg Robidoux https://www.mssqltips.com/sqlserverauthor/37/greg-robidoux/",
+        "Href": "https://www.mssqltips.com/sqlservertutorial/277/index-scans-and-table-scans/"
+      },
+      {
+        "Name": "Stream Aggregate",
+        "Quote": "Stream Aggregate Operator",
+        "Cite": "Fabiano Amorim https://www.simple-talk.com/author/fabiano-amorim/",
+        "Href": "https://www.simple-talk.com/sql/learn-sql-server/showplan-operator-of-the-week-stream-aggregate/"
+      },
+      {
+        "Name": "Compute Scalar",
+        "Quote": "Compute Scalar Operator",
+        "Cite": "Fabiano Amorim https://www.simple-talk.com/author/fabiano-amorim/",
+        "Href": "https://www.simple-talk.com/sql/learn-sql-server/showplan-operator-of-the-week-compute-scalar/"
+      },
+      {
+        "Name": "Sort",
+        "Quote": "Split, Sort, Collapse Operator",
+        "Cite": "Fabiano Amorim https://www.simple-talk.com/author/fabiano-amorim/",
+        "Href": "https://www.simple-talk.com/sql/learn-sql-server/showplan-operator-of-the-week-split-sort-collapse/"
+      },
+      {
+        "Name": "Sort",
+        "Quote": "Sort Operator",
+        "Cite": "Fabiano Amorim https://www.simple-talk.com/author/fabiano-amorim/",
+        "Href": "https://www.simple-talk.com/sql/learn-sql-server/showplan-operator-of-the-week-sort/"
+      },
+      {
+        "Name": "Merge Join",
+        "Quote": "Merge Join Operator",
+        "Cite": "Fabiano Amorim https://www.simple-talk.com/author/fabiano-amorim/",
+        "Href": "https://www.simple-talk.com/sql/learn-sql-server/showplan-operator-of-the-week-stream-aggregate/"
+      },
+      {
+        "Name": "Nested Loops",
+        "Quote": "Nested Loops Join – SQL Server Graphical Execution Plan",
+        "Cite": "http://thinknook.com",
+        "Href": "http://thinknook.com/nested-loop-join-sql-server-graphical-execution-plan-2012-03-25/"
+      },
+      {
+        "Name": "Key Lookup",
+        "Quote": "How To Eliminate Key Lookups in SQL Server",
+        "Cite": "Glenn Berry",
+        "Href": "https://sqlserverperformance.wordpress.com/2010/06/09/how-to-eliminate-key-lookups-in-sql-server-2008/"
+      },
+      {
+        "Name": "Index Seek",
+        "Quote": "SQL SERVER – Index Seek Vs. Index Scan (Table Scan)",
+        "Cite": "Pinal Dave https://blog.sqlauthority.com/",
+        "Href": "https://blog.sqlauthority.com/2007/03/30/sql-server-index-seek-vs-index-scan-table-scan/"
+      },
+      {
+        "Name": "Clustered Index Scan",
+        "Quote": "What Clustered Index Scan (Clustered)” means on SQL Server execution plan?",
+        "Cite": "stackoverflow.com",
+        "Href": "http://stackoverflow.com/questions/31949355/what-clustered-index-scan-clustered-means-on-sql-server-execution-plan"
+      },
+      {
+        "Name": "Clustered Index Scan",
+        "Quote": "Identifying and Solving Index Scan Problems",
+        "Cite": "Dennes Torres https://www.simple-talk.com/author/dennes-torres/",
+        "Href": "https://www.simple-talk.com/sql/performance/identifying-and-solving-index-scan-problems/"
       }
     ]
   }

@@ -1,4 +1,4 @@
-//our root app component
+﻿//our root app component
 import {Component, Input, OnChanges, OnInit, SimpleChanges,ChangeDetectionStrategy} from '@angular/core';
 import {SqlPlanStatisticsModel,SqlPlanStats} from './sql-analytics-model';
 
@@ -15,8 +15,15 @@ import {SqlPlanStatisticsModel,SqlPlanStats} from './sql-analytics-model';
 export class SqlAnalyticsPlanComponent implements OnInit, OnChanges{
     @Input()
     sqlPlanModel:SqlPlanStatisticsModel;
-    operationWarnings:string[]=["Table Scan","Clustered Index Scan", "Key Lookup"];
-    planTd:any[]=[];
+    operationWarnings:string[]=["Table Scan","Clustered Index Scan", "Index Scan",
+    "Key Lookup"];
+
+    supportedHelpCodes: string[] = ["Hash Match", "Index Scan", "Table Scan", "Stream Aggregate",
+        "Compute Scalar","Clustered Index Scan", "Sort", "Merge Join", "Nested Loops", "Key Lookup", "Index Seek"];
+   
+
+    planTd: any[] = [];
+   
 
     constructor() {
     }
@@ -34,6 +41,13 @@ export class SqlAnalyticsPlanComponent implements OnInit, OnChanges{
              return true;
              }
       return false;
+    }
+
+    showHelpCodes(colValue: SqlPlanStats) {
+        if (this.supportedHelpCodes.indexOf(colValue.PhysicalOperation) > -1) {
+            return true;
+        }
+        return false;
     }
     
     setClasses(colValue:SqlPlanStats) {
