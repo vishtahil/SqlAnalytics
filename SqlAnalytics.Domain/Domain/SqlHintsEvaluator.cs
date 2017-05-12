@@ -36,21 +36,21 @@ namespace SqlAnalyticsDomain.Domain
 
         public static Dictionary<string, string> OperatorPatternSet = new Dictionary<string, string>()
             {
-                {SqlClause.NESTED_IN.ToString() ,"Contains Nested Sub Query with IN clause."},
-                {SqlClause.NESTED_EXISTS.ToString(),"Contains Nested Sub Query  with EXISTS clause." },
+                {SqlClause.NESTED_IN.ToString() ,"Contains Correlated Sub Query with IN clause."},
+                {SqlClause.NESTED_EXISTS.ToString(),"Contains Correlated Sub Query  with EXISTS clause." },
                 {SqlClause.CROSS_JOIN.ToString(),"Contains CROSS JOIN Operator" },
-                {SqlClause.LEFT_JOIN.ToString(),"Contains Nested Sub Query  with LEFT JOIN clause." },
-                {SqlClause.INNER_JOIN.ToString(),"Contains Nested Sub Query  with INNER JOIN clause."},
-                {SqlClause.NESTED_JOIN.ToString(),"Contains Nested Sub Query swith JOIN clause."},
-                {SqlClause.FULL_JOIN.ToString(),"Contains Nested Sub Query  with FULL JOIN clause."},
-                {SqlClause.RIGHT_JOIN.ToString(),"Contains Nested Sub Query  with RIGHT JOIN clause."},
-                {SqlClause.LEFT_OUTER_JOIN.ToString(),"Contains Sub Query  Select with LEFT OUTER JOIN clause."},
-                {SqlClause.FULL_OUTER_JOIN.ToString(),"Contains Sub Query  Select with FULL OUTER JOIN clause."},
-                {SqlClause.NESTED_SELECT.ToString(),"Contains Nested Sub Query  Statement." },
-                {SqlClause.NESTED_GREATER_THAN.ToString(),"Contains Nested Sub Query  with GREATER THAN Clause" },
-                {SqlClause.NESTED_LESS_THAN.ToString(),"Contains Nested Sub Query  with LESS THAN Clause" },
-                {SqlClause.NESTED_EQUAL_TO.ToString(),"Contains Nested Sub Query  with EQUAL TO Clause" },
-                {SqlClause.NESTED_SELECT_FROM.ToString(),"Contains Nested Sub Query with SELECT Clause" },
+                {SqlClause.LEFT_JOIN.ToString(),"Contains Correlated Sub Query  with LEFT JOIN clause." },
+                {SqlClause.INNER_JOIN.ToString(),"Contains Correlated Sub Query  with INNER JOIN clause."},
+                {SqlClause.NESTED_JOIN.ToString(),"Contains Correlated Sub Query swith JOIN clause."},
+                {SqlClause.FULL_JOIN.ToString(),"Contains Correlated Sub Query  with FULL JOIN clause."},
+                {SqlClause.RIGHT_JOIN.ToString(),"Contains Correlated Sub Query  with RIGHT JOIN clause."},
+                {SqlClause.LEFT_OUTER_JOIN.ToString(),"Contains Correlated Correlated Sub Query  Select with LEFT OUTER JOIN clause."},
+                {SqlClause.FULL_OUTER_JOIN.ToString(),"Contains Correlated Sub Query  Select with FULL OUTER JOIN clause."},
+                {SqlClause.NESTED_SELECT.ToString(),"Contains Correlated Sub Query  Statement." },
+                {SqlClause.NESTED_GREATER_THAN.ToString(),"Contains Correlated Sub Query  with GREATER THAN Clause" },
+                {SqlClause.NESTED_LESS_THAN.ToString(),"Contains Correlated Sub Query  with LESS THAN Clause" },
+                {SqlClause.NESTED_EQUAL_TO.ToString(),"Contains Correlated Sub Query  with EQUAL TO Clause" },
+                {SqlClause.NESTED_SELECT_FROM.ToString(),"Contains Correlated Sub Query with SELECT Clause" },
                 { SqlClause.BLOCK_SELECT.ToString(),"Contains SELECT * statement" },
                 { SqlClause.ORDER_BY.ToString(),"Contains ORDER BY Clause" },
                 { SqlClause.LIKE_BEGIN.ToString(),"Contains LIKE expression with leading wildcards" },
@@ -60,7 +60,15 @@ namespace SqlAnalyticsDomain.Domain
 
         public static string NESTED_JOIN_PATTERN = @"\b(join\s*[\r\n]*\(\s*[\r\n]*select[^)]*\))";
 
-
+        /// <summary>
+        /// check if the help code corresponds to correlated sub query code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public bool IsCorrelatedSqlQueryCodes(string code)
+        {
+           return OperatorPatternSet.Any(x => x.Key == code && x.Value.ToLower().Contains("correlated"));
+        }
 
         /// <summary>
         /// Public get Sql Optimation Hints

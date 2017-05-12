@@ -56,6 +56,11 @@ namespace SqlAnalyticsManager
             };
         }
 
+       public bool IsCorrelatedSqlQueryCodes(string code)
+        {
+           return _sqlHintsEvaluator.IsCorrelatedSqlQueryCodes(code);
+        }
+
         /// <summary>
         /// get sql statistics execution plan mode
         /// </summary>

@@ -36,8 +36,43 @@
         "Quote": "Avoid SQL Server functions in the WHERE clause for Performance.",
         "Cite": "Greg Robidoux https://www.mssqltips.com/sqlserverauthor/37/greg-robidoux/",
         "Href": "https://www.mssqltips.com/sqlservertip/1236/avoid-sql-server-functions-in-the-where-clause-for-performance/"
+      },
+      {
+        "Name": "CORRELATED_QUERY",
+        "Quote": "SQL server performance – Death by correlated subqueries.",
+        "Cite": "Håkan Winthe",
+        "Href": "http://www.sqlservice.se/sql-server-performance-death-by-correlated-subqueries/"
+      },
+      {
+        "Name": "CORRELATED_QUERY",
+        "Quote": "Correlated sub queries for good or evil?",
+        "Cite": "Greg Robidoux https://www.mssqltips.com/sqlserverauthor/37/greg-robidoux/",
+        "Href": "http://jahaines.blogspot.com/2009/06/correlated-sub-queries-for-good-or-evil.html"
+      },
+      {
+        "Name": "CORRELATED_QUERY",
+        "Quote": "Is there a performance difference between CTE , Sub-Query, Temporary Table or Table Variable?",
+        "Cite": "Adam Haines",
+        "Href": "http://stackoverflow.com/questions/11169550/is-there-a-performance-difference-between-cte-sub-query-temporary-table-or-ta/11169910#11169910"
+      },
+      {
+        "Name": "CROSS_JOIN",
+        "Quote": "Identifying and Eliminating the Dreaded Cartesian Product",
+        "Cite": "Rob Gravelle ",
+        "Href": "http://www.databasejournal.com/features/mysql/article.php/3901221/Identifying-and-Eliminating-the-Dreaded-Cartesian-Product.htm"
+      },
+      {
+        "Name": "LIKE_BEGIN",
+        "Quote": "Sargability: Why %string% Is Slow",
+        "Cite": "Brent Ozar https://www.brentozar.com/archive/author/brento/",
+        "Href": "https://www.brentozar.com/archive/2010/06/sargable-why-string-is-slow/"
+      },
+      {
+        "Name": "LIKE_BEGIN",
+        "Quote": "SQL Wildcard Search - Efficiency?",
+        "Cite": "stackoverflow.com  http://stackoverflow.com",
+        "Href": "http://stackoverflow.com/questions/11795770/sql-wildcard-search-efficiency"
       }
-
     ]
   }
 }

@@ -53,6 +53,12 @@ namespace SqlAnalytics.Controllers
     [HttpGet("help/{code}")]
     public IActionResult GetSqlLintHelp(string code)
     {
+
+      if (_sqlManager.IsCorrelatedSqlQueryCodes(code))
+      {
+        code = "CORRELATED_QUERY";
+      }
+      
       var helpContentList = _contentConfig.Content.Where(x => x.Name.Equals(code, StringComparison.OrdinalIgnoreCase));
 
       if (helpContentList.Count() > 0)
