@@ -67,10 +67,11 @@
               <span>
           <i style="color:red;" class="fa fa-check-circle fa-2" 
           aria-hidden="true"></i>
-          </span><span>
+          </span>
+          <!--<span>
           <i class="fa fa-question-circle fa-1" title="Click to see important details." 
             (click)="sqlLintModel.show('BLOCK_SELECT')" style="float:right;font-size:1.2em;color:#337ab7;cursor:point"
-              aria-hidden="true"></i></span>
+              aria-hidden="true"></i></span>-->
             </ng-container>
           </td>
         </tr>
@@ -111,9 +112,9 @@
   <div class="panel-body">
       <ng-container *ngFor="let colValue of sqlPlanModel.Warnings">
           <span style="color:#8a6d3b;font-weight:bold;">{{colValue.Key}}
-            <i class="fa fa-question-circle fa-1" title="Click to see important details." 
+            <!--<i class="fa fa-question-circle fa-1" title="Click to see important details." 
             (click)="sqlLintModel.show('BLOCK_SELECT')" style="font-size:1.2em;color:#337ab7;cursor:hover"
-              aria-hidden="true"></i>
+              aria-hidden="true"></i>-->
           </span>
           <pre>{{colValue.Value}}}</pre>
       </ng-container>
