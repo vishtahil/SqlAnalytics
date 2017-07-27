@@ -10,7 +10,7 @@ namespace SqlAnalytics.Repo
         public OptimizerRepo()
         {
         }
-        
+
         /// <summary>
         /// get sql execution plan
         /// </summary>
@@ -20,7 +20,7 @@ namespace SqlAnalytics.Repo
         {
             var sqlPlanOveriviewModel = new SqlPlanOveriviewModel();
             var listOverviewMessages = new List<SqlOverviewMessages>();
-           
+
             using (var connection = new SqlConnection(connectionString))
             {
                 if (connection.State != System.Data.ConnectionState.Open)
@@ -49,14 +49,15 @@ namespace SqlAnalytics.Repo
 
                     using (var reader = command.ExecuteReader())
                     {
-                        while (reader.NextResult())
+                        while (reader.HasRows)
                         {
-                            if (reader.GetName(0) == "Microsoft SQL Server 2005 XML Showplan")
+                            while (reader.Read())
                             {
-                                reader.Read();
-                                sqlPlanOveriviewModel.SqlExecutionPlan = reader.GetString(0);
+                               sqlPlanOveriviewModel.SqlExecutionPlan = reader.GetString(0);
                             }
+                            reader.NextResult();
                         }
+
                     }
                 }
             }
