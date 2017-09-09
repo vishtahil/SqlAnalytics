@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SqlAnalyticsManager.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace SqlAnalyticsManager.Domain
             var statementNode = xmlDoc.SelectSingleNode("//ns:StmtSimple[1]", nameSpaceManager);
             return GetNodeAttributeValue<decimal>(statementNode, "StatementSubTreeCost");
         }
-        
+
 
         /// <summary>
         /// Get plan Statistics
@@ -64,7 +65,7 @@ namespace SqlAnalyticsManager.Domain
             var sqlPlanModel = new SqlPlanStatisticsModel();
             sqlPlanModel.StatementSubTreeCost = GetStatemtentSubTreeCost(xmldoc, nameSpaceManager);
             sqlPlanModel.Warnings = GetSqlWarnings(xmldoc, nameSpaceManager);
-
+           
             sqlPlanModel.SqlPlanStats = new List<SqlPlanStats>();
 
             int counter = 1;
@@ -77,10 +78,18 @@ namespace SqlAnalyticsManager.Domain
 
             //calculate node cost and percentages
             calculateTotalNodeCost(sqlPlanModel);
-            //var jsonString= JsonConvert.SerializeObject(sqlPlanModel.SqlPlanStats);
+            //order by descending
+            sqlPlanModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanModel);
             return sqlPlanModel;
         }
 
+        private List<SqlPlanStats> sortExecutionPlanStats(SqlPlanStatisticsModel sqlPlanModel)
+        {
+            return sqlPlanModel.SqlPlanStats.OrderByDescending(x => x.TotalNodeCost)
+                                .ThenByDescending(x => x.EstimateRows)
+                                .ThenByDescending(x => x.EstimateCPU)
+                                .ThenByDescending(x => x.EstimateIO).ToList();
+        }
         /// <summary>
         /// https://dba.stackexchange.com/questions/143548/estimated-operator-cost-calculation
         /// </summary>

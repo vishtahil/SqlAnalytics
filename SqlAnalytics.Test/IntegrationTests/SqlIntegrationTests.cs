@@ -24,7 +24,19 @@ namespace SqlAnalyticsTest.IntegrationTests
             Assert.AreEqual(summaryModel != null, true);
             Assert.AreEqual(summaryModel.SqlOptimizationHints != null, true);
             Assert.AreEqual(summaryModel.SqlPlanOverviewModel != null, true);
-            Assert.AreEqual(summaryModel.SqlPlanStatisticsModel != null, true);
+            Assert.AreEqual(summaryModel.SqlPlanStatisticsModels != null, true);
+
+        }
+
+        [TestMethod]
+        public void Test_SqlPlanMultipleSqlMode()
+        {
+            string sqlText = System.IO.File.ReadAllText($"{_testDataLocation}/MultipleSqlStatement.sql");
+            var summaryModel = _sqlPlanManager.GetSqlStatistcisSqlMode(_connectionString, sqlText);
+            Assert.AreEqual(summaryModel != null, true);
+            Assert.AreEqual(summaryModel.SqlOptimizationHints != null, true);
+            Assert.AreEqual(summaryModel.SqlPlanOverviewModel != null, true);
+            Assert.AreEqual(summaryModel.SqlPlanStatisticsModels != null, true);
 
         }
 
@@ -36,7 +48,7 @@ namespace SqlAnalyticsTest.IntegrationTests
             Assert.AreEqual(summaryModel != null, true);
             Assert.AreEqual(summaryModel.SqlOptimizationHints != null, true);
             Assert.AreEqual(summaryModel.SqlPlanOverviewModel == null, true);
-            Assert.AreEqual(summaryModel.SqlPlanStatisticsModel == null, true);
+            Assert.AreEqual(summaryModel.SqlPlanStatisticsModels == null, true);
         }
 
         [TestMethod]
@@ -47,7 +59,7 @@ namespace SqlAnalyticsTest.IntegrationTests
             Assert.AreEqual(summaryModel != null, true);
             Assert.AreEqual(summaryModel.SqlOptimizationHints != null, true);
             Assert.AreEqual(summaryModel.SqlPlanOverviewModel == null, true);
-            Assert.AreEqual(summaryModel.SqlPlanStatisticsModel != null, true);
+            Assert.AreEqual(summaryModel.SqlPlanStatisticsModels != null, true);
         }
     }
 }

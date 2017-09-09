@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup>
        <RuntimeIdentifiers>win10-x64;win7-x64</RuntimeIdentifiers>
+       <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="wwwroot\" />

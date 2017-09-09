@@ -5,6 +5,7 @@ using SqlAnalyticsDomain.Domain;
 using SqlAnalyticsManager.Domain;
 using SqlAnalyticsManager.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -44,15 +45,14 @@ namespace SqlAnalyticsManager
         {
             var dynamicSql = _sqlStatsParser.InjectSqlStats(sql);
             var planOverViewModel = GetSqlOverviewModel(connectionString, dynamicSql);
-            var sqlPlanStatsModel = _sqlPlanParser.GetPlanStats(planOverViewModel.SqlExecutionPlan);
-            sqlPlanStatsModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanStatsModel);
+            var sqlPlanStatsModels =GetSqlStats(planOverViewModel.SqlExecutionPlans);
             var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
 
             return new SqlStatisticsSummary()
             {
                 SqlPlanOverviewModel = planOverViewModel,
                 SqlOptimizationHints = sqlOptimizationHints,
-                SqlPlanStatisticsModel = sqlPlanStatsModel
+                SqlPlanStatisticsModels = sqlPlanStatsModels
             };
         }
 
@@ -70,13 +70,13 @@ namespace SqlAnalyticsManager
         {
             var sql = _sqlPlanParser.GetSqlFromPlan(executionPlan);
             var sqlPlanStatsModel = _sqlPlanParser.GetPlanStats(executionPlan);
-            sqlPlanStatsModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanStatsModel);
             var sqlOptimizationHints = _sqlHintsEvaluator.GetSqlOptimationHints(sql);
-
+            var sqlPlanModels = new List<SqlPlanStatisticsModel>();
+            sqlPlanModels.Add(sqlPlanStatsModel);
             return new SqlStatisticsSummary()
             {
                 SqlOptimizationHints = sqlOptimizationHints,
-                SqlPlanStatisticsModel = sqlPlanStatsModel,
+                SqlPlanStatisticsModels = sqlPlanModels,
                 SqlStatement = sql
             };
         }
@@ -95,21 +95,19 @@ namespace SqlAnalyticsManager
                 SqlOptimizationHints = sqlOptimizationHints
             };
         }
-        private SqlPlanStatisticsModel GetSqlStats(string sqlExecutionPlan)
-        {
-            SqlPlanStatisticsModel sqlPlanModel = _sqlPlanParser.GetPlanStats(sqlExecutionPlan);
-            sqlPlanModel.SqlPlanStats = sortExecutionPlanStats(sqlPlanModel);
-            return sqlPlanModel;
-        }
 
-        private  List<SqlPlanStats> sortExecutionPlanStats(SqlPlanStatisticsModel sqlPlanModel)
+        private List<SqlPlanStatisticsModel> GetSqlStats(List<string> sqlExecutionPlans)
         {
-            return sqlPlanModel.SqlPlanStats.OrderByDescending(x => x.TotalNodeCost)
-                                .ThenByDescending(x => x.EstimateRows)
-                                .ThenByDescending(x => x.EstimateCPU)
-                                .ThenByDescending(x => x.EstimateIO).ToList();
+            var sqlPlanModels = new ConcurrentBag<SqlPlanStatisticsModel>();
+            Parallel.ForEach(sqlExecutionPlans, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, (sqlPlan) =>
+            {
+                var sqlPlanModel = _sqlPlanParser.GetPlanStats(sqlPlan);
+                sqlPlanModel.SqlFromPlan = _sqlPlanParser.GetSqlFromPlan(sqlPlan);
+                sqlPlanModels.Add(sqlPlanModel);
+            });
+            return sqlPlanModels.ToList();
         }
-
+        
         /// <summary>
         /// Get Logical Reads and CPU Time stats
         /// </summary>

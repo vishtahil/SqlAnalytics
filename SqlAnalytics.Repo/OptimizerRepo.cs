@@ -53,7 +53,11 @@ namespace SqlAnalytics.Repo
                         {
                             while (reader.Read())
                             {
-                               sqlPlanOveriviewModel.SqlExecutionPlan = reader.GetString(0);
+                                var sqlPlan = Convert.ToString(reader.GetValue(0));
+                                if (SqlHelper.CheckValidSqlPlan(sqlPlan))
+                                {
+                                    sqlPlanOveriviewModel.SqlExecutionPlans.Add(sqlPlan);
+                                }
                             }
                             reader.NextResult();
                         }

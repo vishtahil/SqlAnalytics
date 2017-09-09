@@ -11,7 +11,7 @@ namespace SqlAnalyticsManager.Models
         public List<SqlPlanStats> SqlPlanStats { get; set; }
         public List<KeyValuePair<string, string>> Warnings { get; set; } = new List<KeyValuePair<string, string>>();
         public decimal StatementSubTreeCost { get; set; }
-
+        public string SqlFromPlan { get; set; }
     }
 
     public class SqlPlanStats
